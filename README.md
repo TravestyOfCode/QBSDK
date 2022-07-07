@@ -1,7 +1,7 @@
 # QBSDK
 A basic .NET wrapper for the QuickBooks Desktop SDK
 
-This project contains two libraries. The first, QBSDK is a simple wrapper class for generating QBXML requests and processing them. It currently supports:
+This project contains two libraries. QBSDK.Provider is an attempt to make a LINQ provider to generate QBXML. QBSDK is a simple wrapper class for generating QBXML requests and processing them. QBSDK currently supports:
 
 ## Lists
 | Object | QueryRq | AddRq | ModRq | DelRq |
