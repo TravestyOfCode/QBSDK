@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace QBSDK
@@ -47,5 +44,30 @@ namespace QBSDK
             return queryRq;
         }
 
+    }
+
+    public class AccountListIDQuery : ListIDQuery<Account>
+    {
+        public AccountListIDQuery() : base()
+        {
+
+        }
+        public AccountListIDQuery(params string[] listIDs) : base(listIDs)
+        {
+
+        }
+    }
+
+    public class AccountFullNameQuery : FullNameQuery<Account>
+    {
+        public AccountFullNameQuery() : base()
+        {
+
+        }
+
+        public AccountFullNameQuery(params string[] fullNames) : base(fullNames)
+        {
+
+        }
     }
 }

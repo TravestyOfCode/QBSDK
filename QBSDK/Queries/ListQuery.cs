@@ -24,7 +24,7 @@ namespace QBSDK
 
         public override XElement ToXElement()
         {
-            var QueryRq = new XElement($"{typeof(T)}QueryRq");
+            var QueryRq = new XElement($"{typeof(T).Name}QueryRq");
 
             AddToXElement(QueryRq);
 
@@ -76,7 +76,7 @@ namespace QBSDK
 
         public override XElement ToXElement()
         {
-            var QueryRq = new XElement($"{typeof(T)}QueryRq");
+            var QueryRq = new XElement($"{typeof(T).Name}QueryRq");
 
             AddToXElement(QueryRq);
 
