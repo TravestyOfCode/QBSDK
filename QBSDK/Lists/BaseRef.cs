@@ -1,6 +1,6 @@
 ﻿using System.Xml.Linq;
 
-namespace QBSDK.Lists
+namespace QBSDK
 {
     public class BaseRef
     {
@@ -23,23 +23,23 @@ namespace QBSDK.Lists
     {
         public static BaseRef AsBaseRef(this XElement element)
         {
-            if(element == null) 
+            if (element == null)
             {
                 return null;
             }
 
             BaseRef result = new BaseRef();
 
-            foreach(XElement subElement in element.Elements())
+            foreach (XElement subElement in element.Elements())
             {
-                switch(subElement.Name.LocalName)
+                switch (subElement.Name.LocalName)
                 {
                     case nameof(result.ListID): result.ListID = subElement.AsString(); break;
                     case nameof(result.FullName): result.FullName = subElement.AsString(); break;
                 }
             }
 
-            if(result.IsEmpty)
+            if (result.IsEmpty)
             {
                 return null;
             }
@@ -47,7 +47,7 @@ namespace QBSDK.Lists
             return result;
         }
 
-        public static XElement AsXElement(this BaseRef value, string name)
+        public static XElement ToXElement(this BaseRef value, string name)
         {
             if (value == null)
                 return null;

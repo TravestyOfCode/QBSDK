@@ -27,5 +27,4 @@ namespace QBSDK
 
         public abstract XElement ToDelRq(QBVersionInfo versionInfo = null);
     }
-
 }

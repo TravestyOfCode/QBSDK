@@ -1,12 +1,12 @@
 ﻿using System.Linq;
 using System.Xml.Linq;
 
-namespace QBSDK.Lists
+namespace QBSDK
 {
     public abstract class QBListObject : QBObject, IQBList
     {
         public string ListID { get => ID; set => ID = value; }
-        
+
         public string Name { get; set; }
 
         public string FullName
@@ -36,21 +36,21 @@ namespace QBSDK.Lists
                 }
             }
         }
-        
+
         public bool? IsActive { get; set; }
-        
+
         public BaseRef ParentRef { get; set; }
-        
+
         public int Sublevel => FullName.Count(c => c == ':');
 
         public override XElement ToAddRq(QBVersionInfo versionInfo = null)
         {
             XElement AddRq = new XElement(nameof(AddRq));
 
-            AddRq.Add(ListID?.AsXElement(nameof(ListID)));
-            AddRq.Add(Name?.AsXElement(nameof(Name)));
-            AddRq.Add(IsActive?.AsXElement(nameof(IsActive)));
-            AddRq.Add(ParentRef?.AsXElement(nameof(ParentRef)));
+            AddRq.Add(ListID?.ToXElement(nameof(ListID)));
+            AddRq.Add(Name?.ToXElement(nameof(Name)));
+            AddRq.Add(IsActive?.ToXElement(nameof(IsActive)));
+            AddRq.Add(ParentRef?.ToXElement(nameof(ParentRef)));
 
             return AddRq;
         }
@@ -59,10 +59,10 @@ namespace QBSDK.Lists
         {
             XElement ModRq = new XElement(nameof(ModRq));
 
-            ModRq.Add(ListID?.AsXElement(nameof(ListID)));
-            ModRq.Add(Name?.AsXElement(nameof(Name)));
-            ModRq.Add(IsActive?.AsXElement(nameof(IsActive)));
-            ModRq.Add(ParentRef?.AsXElement(nameof(ParentRef)));
+            ModRq.Add(ListID?.ToXElement(nameof(ListID)));
+            ModRq.Add(Name?.ToXElement(nameof(Name)));
+            ModRq.Add(IsActive?.ToXElement(nameof(IsActive)));
+            ModRq.Add(ParentRef?.ToXElement(nameof(ParentRef)));
 
             return ModRq;
         }
@@ -70,7 +70,7 @@ namespace QBSDK.Lists
         public override XElement ToDelRq(QBVersionInfo versionInfo = null)
         {
             XElement ListDelRq = new XElement(nameof(ListDelRq));
-            ListDelRq.Add(ListID?.AsXElement(nameof(ListID)));
+            ListDelRq.Add(ListID?.ToXElement(nameof(ListID)));
             return ListDelRq;
         }
 
@@ -81,6 +81,7 @@ namespace QBSDK.Lists
                 switch (element.Name.LocalName)
                 {
                     case nameof(ListID): ListID = element.AsString(); break;
+                    case nameof(EditSequence): EditSequence = element.AsString(); break;
                     case nameof(Name): Name = element.AsString(); break;
                     case nameof(IsActive): IsActive = element.AsBool(); break;
                     case nameof(ParentRef): ParentRef = element.AsBaseRef(); break;

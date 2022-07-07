@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Linq;
 
-namespace QBSDK.Lists
+namespace QBSDK
 {
     public class Account : QBListObject
     {
@@ -39,22 +39,22 @@ namespace QBSDK.Lists
         public override XElement ToAddRq(QBVersionInfo versionInfo = null)
         {
             versionInfo ??= new QBVersionInfo();
-            
+
             XElement AccountAddRq = base.ToAddRq(versionInfo);
 
             AccountAddRq.Name = nameof(AccountAddRq);
-            AccountAddRq.Add(AccountType?.AsXElement(nameof(AccountType)));
-            AccountAddRq.Add(AccountNumber?.AsXElement(nameof(AccountNumber)));
-            AccountAddRq.Add(BankNumber?.AsXElement(nameof(BankNumber)));
-            AccountAddRq.Add(Desc?.AsXElement(nameof(Desc)));
-            AccountAddRq.Add(OpenBalance?.AsXElement(nameof(OpenBalance)));
-            AccountAddRq.Add(OpenBalanceDate?.AsXElement(nameof(OpenBalanceDate)));
+            AccountAddRq.Add(AccountType?.ToXElement(nameof(AccountType)));
+            AccountAddRq.Add(AccountNumber?.ToXElement(nameof(AccountNumber)));
+            AccountAddRq.Add(BankNumber?.ToXElement(nameof(BankNumber)));
+            AccountAddRq.Add(Desc?.ToXElement(nameof(Desc)));
+            AccountAddRq.Add(OpenBalance?.ToXElement(nameof(OpenBalance)));
+            AccountAddRq.Add(OpenBalanceDate?.ToXElement(nameof(OpenBalanceDate)));
             if (versionInfo.Version.Major >= 6 && (versionInfo.CountryCode == "CA" || versionInfo.CountryCode == "UK"))
-                AccountAddRq.Add(SalesTaxCodeRef?.AsXElement(nameof(SalesTaxCodeRef)));
+                AccountAddRq.Add(SalesTaxCodeRef?.ToXElement(nameof(SalesTaxCodeRef)));
             if (versionInfo.Version.Major >= 7 && (versionInfo.CountryCode == "US" || versionInfo.CountryCode == "CA"))
-                AccountAddRq.Add(TaxLineInfo?.AsXElement(nameof(TaxLineInfo)));
+                AccountAddRq.Add(TaxLineInfo?.ToXElement(nameof(TaxLineInfo)));
             if (versionInfo.Version.Major >= 8)
-                AccountAddRq.Add(CurrencyRef?.AsXElement(nameof(CurrencyRef)));
+                AccountAddRq.Add(CurrencyRef?.ToXElement(nameof(CurrencyRef)));
 
             return AccountAddRq;
         }
@@ -66,16 +66,16 @@ namespace QBSDK.Lists
             XElement AccountModRq = base.ToModRq(versionInfo);
 
             AccountModRq.Name = nameof(AccountModRq);
-            AccountModRq.Add(AccountType?.AsXElement(nameof(AccountType)));
-            AccountModRq.Add(AccountNumber?.AsXElement(nameof(AccountNumber)));
-            AccountModRq.Add(BankNumber?.AsXElement(nameof(BankNumber)));
-            AccountModRq.Add(Desc?.AsXElement(nameof(Desc)));
+            AccountModRq.Add(AccountType?.ToXElement(nameof(AccountType)));
+            AccountModRq.Add(AccountNumber?.ToXElement(nameof(AccountNumber)));
+            AccountModRq.Add(BankNumber?.ToXElement(nameof(BankNumber)));
+            AccountModRq.Add(Desc?.ToXElement(nameof(Desc)));
             if (versionInfo.Version.Major >= 6 && (versionInfo.CountryCode == "CA" || versionInfo.CountryCode == "UK"))
-                AccountModRq.Add(SalesTaxCodeRef?.AsXElement(nameof(SalesTaxCodeRef)));
+                AccountModRq.Add(SalesTaxCodeRef?.ToXElement(nameof(SalesTaxCodeRef)));
             if (versionInfo.Version.Major >= 7 && (versionInfo.CountryCode == "US" || versionInfo.CountryCode == "CA"))
-                AccountModRq.Add(TaxLineInfo?.AsXElement(nameof(TaxLineInfo)));
+                AccountModRq.Add(TaxLineInfo?.ToXElement(nameof(TaxLineInfo)));
             if (versionInfo.Version.Major >= 8)
-                AccountModRq.Add(CurrencyRef?.AsXElement(nameof(CurrencyRef)));
+                AccountModRq.Add(CurrencyRef?.ToXElement(nameof(CurrencyRef)));
 
             return AccountModRq;
         }
@@ -86,7 +86,7 @@ namespace QBSDK.Lists
 
             XElement ListDelRq = base.ToDelRq(versionInfo);
             ListDelRq.Name = nameof(ListDelRq);
-            ListDelRq.AddFirst(ListDelType.AsXElement(nameof(ListDelType)));
+            ListDelRq.AddFirst(ListDelType.ToXElement(nameof(ListDelType)));
 
             return ListDelRq;
         }
@@ -121,6 +121,11 @@ namespace QBSDK.Lists
                         break;
                 }
             }
+        }
+
+        public override string ToString()
+        {
+            return AccountNumber == null ? FullName : $"{AccountNumber} - {FullName}";
         }
     }
 }

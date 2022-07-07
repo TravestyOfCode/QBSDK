@@ -22,9 +22,9 @@ namespace QBSDK
 
             DataExt result = new DataExt();
 
-            foreach(XElement subElement in element.Elements())
+            foreach (XElement subElement in element.Elements())
             {
-                switch(subElement.Name.LocalName)
+                switch (subElement.Name.LocalName)
                 {
                     case nameof(result.OwnerID): result.OwnerID = subElement.AsString(); break;
                     case nameof(result.DataExtName): result.DataExtName = subElement.AsString(); break;
@@ -32,7 +32,7 @@ namespace QBSDK
                 }
             }
 
-            if(result.IsEmpty)
+            if (result.IsEmpty)
             {
                 return null;
             }
