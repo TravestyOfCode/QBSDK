@@ -8,5 +8,7 @@
     public enum AccountType { AccountsPayable, AccountsReceivable, Bank, CostOfGoodsSold, CreditCard, Equity, Expense, FixedAsset, Income, LongTermLiability, NonPosting, OtherAsset, OtherCurrentAsset, OtherCurrentLiability, OtherExpense, OtherIncome }
     public enum CashFlowClassification { None, Operating, Investing, Financing, NotApplicable }
     public enum SpecialAccountType { AccountsPayable, AccountsReceivable, CondenseItemAdjustmentExpenses, CostOfGoodsSold, DirectDepositLiabilities, Estimates, ExchangeGainLoss, InventoryAssets, ItemReceiptAccount, OpeningBalanceEquity, PayrollExpenses, PayrollLiabilities, PettyCash, PurchaseOrders, ReconciliationDifferences, RetainedEarnings, SalesOrders, SalesTaxPayable, UncategorizedExpenses, UncategorizedIncome, UndepositedFunds }
-    
+    public enum JobStatus { None, Awarded, Closed, InProgress, NotAwarded, Pending }
+    public enum PreferredDeliveryMethod { None, Email, Fax }
+
 }

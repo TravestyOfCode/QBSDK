@@ -54,5 +54,6 @@ namespace QBSDK
                 return false;
             return null;
         }
+        public static DateTime? AsDateTime(this XElement element) => DateTime.TryParse(element?.Value, out DateTime result) == true ? result : null;
     }
 }
