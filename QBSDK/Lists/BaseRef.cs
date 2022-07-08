@@ -17,6 +17,31 @@ namespace QBSDK
         {
             FullName = fullName;
         }
+
+        public void Parse(XElement BaseRef)
+        {
+            if (BaseRef == null)
+                return;
+
+            foreach(var element in BaseRef.Elements())
+            {
+                switch(element.Name.LocalName)
+                {
+                    case nameof(ListID):ListID = element.AsString(); break;
+                    case nameof(FullName): FullName = element.AsString(); break;
+                }
+            }
+        }
+
+        public static BaseRef Create(XElement BaseRef)
+        {
+            if (BaseRef == null)
+                return null;
+
+            BaseRef result = new BaseRef();
+            result.Parse(BaseRef);
+            return result;
+        }
     }
 
     public static class BaseRefExtensions

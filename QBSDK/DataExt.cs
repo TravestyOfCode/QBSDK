@@ -9,35 +9,36 @@ namespace QBSDK
         public string DataExtValue { get; set; }
 
         public bool IsEmpty => OwnerID == null && DataExtName == null && DataExtValue == null;
+
+        public void Parse(XElement element)
+        {
+            if (element == null)
+                return;
+
+            foreach(var subElement in element.Elements())
+            {
+                switch(subElement.Name.LocalName)
+                {
+                    case nameof(OwnerID): OwnerID = subElement.AsString(); break;
+                    case nameof(DataExtName): DataExtName = subElement.AsString(); break;
+                    case nameof(DataExtValue): DataExtValue = subElement.AsString(); break;
+                }
+            }
+        }
+
+        public static DataExt Create(XElement element)
+        {
+            if (element == null)
+                return null;
+
+            DataExt result = new DataExt();
+            result.Parse(element);
+            return result;
+        }
     }
 
     public static class DataExtExtensions
     {
-        public static DataExt AsDataExt(this XElement element)
-        {
-            if (element == null || element.Name.LocalName != "DataExtRet")
-            {
-                return null;
-            }
-
-            DataExt result = new DataExt();
-
-            foreach (XElement subElement in element.Elements())
-            {
-                switch (subElement.Name.LocalName)
-                {
-                    case nameof(result.OwnerID): result.OwnerID = subElement.AsString(); break;
-                    case nameof(result.DataExtName): result.DataExtName = subElement.AsString(); break;
-                    case nameof(result.DataExtValue): result.DataExtValue = subElement.AsString(); break;
-                }
-            }
-
-            if (result.IsEmpty)
-            {
-                return null;
-            }
-
-            return result;
-        }
+        public static DataExt AsDataExt(this XElement element) => DataExt.Create(element);
     }
 }
