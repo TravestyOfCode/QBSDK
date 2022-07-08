@@ -15,6 +15,14 @@ namespace QBSDK
 
         protected string QueryType = $"{typeof(T).Name}QueryRq";
 
+        public void StopQuery()
+        {
+            if(iterator != null)
+            {
+                iterator = Iterator.Stop;
+            }
+        }
+
         public abstract XElement ToQueryRq(QBVersionInfo versionInfo);
     }
 }

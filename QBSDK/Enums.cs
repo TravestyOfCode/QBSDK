@@ -10,5 +10,6 @@
     public enum SpecialAccountType { AccountsPayable, AccountsReceivable, CondenseItemAdjustmentExpenses, CostOfGoodsSold, DirectDepositLiabilities, Estimates, ExchangeGainLoss, InventoryAssets, ItemReceiptAccount, OpeningBalanceEquity, PayrollExpenses, PayrollLiabilities, PettyCash, PurchaseOrders, ReconciliationDifferences, RetainedEarnings, SalesOrders, SalesTaxPayable, UncategorizedExpenses, UncategorizedIncome, UndepositedFunds }
     public enum JobStatus { None, Awarded, Closed, InProgress, NotAwarded, Pending }
     public enum PreferredDeliveryMethod { None, Email, Fax }
+    public enum Operator { LessThan, LessThanEqual, Equal, GreaterThan, GreaterThanEqual }
 
 }
