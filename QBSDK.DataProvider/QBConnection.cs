@@ -1,4 +1,4 @@
-﻿using QBSDK.Lists;
+﻿using QBSDK;
 using System.Reflection;
 using System.Xml.Linq;
 

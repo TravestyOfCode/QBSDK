@@ -45,12 +45,14 @@ namespace QBSDK
             return doc;
         }
 
-        public List<T> ProcessQuery<T>(QBQuery<T> query) where T : QBObject, new()
+        public List<T> ProcessQuery<T>(QBQuery<T> query, QBVersionInfo version = null) where T : QBObject, new()
         {
             if (query == null)
                 throw new ArgumentNullException(nameof(query));
 
-            XDocument doc = ProcessRequest(query.ToXElement());
+            version ??= new QBVersionInfo();
+
+            XDocument doc = ProcessRequest(query.ToQueryRq(version));
 
             XElement QBXMLMsgsRs = doc.Descendants(nameof(QBXMLMsgsRs)).FirstOrDefault();
 
