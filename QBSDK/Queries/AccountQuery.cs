@@ -4,44 +4,42 @@ using System.Xml.Linq;
 
 namespace QBSDK
 {
-    public class AccountQuery : ComplexListQuery<Account>
+    public class AccountQuery : ListQuery<Account>
     {
-        public new int? MaxReturned
-        {
-            get => null;
-            set => throw new InvalidOperationException("MaxReturned cannot be set for an AccountQuery");
-        }
-
         private List<AccountType> AccountType;
         public List<AccountType> AccountTypeList { get => AccountType; set => AccountType = value; }
 
         public BaseRefFilter CurrencyFilter { get; set; }
 
-        public override XElement ToXElement()
+        public override XElement ToQueryRq(QBVersionInfo versionInfo)
         {
-            var QueryRq = new XElement("AccountQueryRq");
+            XElement QBXMLMsgsRq = new XElement(nameof(QBXMLMsgsRq));
 
-            // Set MaxReturned to null as that will prevent iterator from being set
-            base.MaxReturned = null;
+            XElement QueryRq = new XElement(QueryType);
 
-            base.AddToXElement(QueryRq);
+            QueryRq.Add(metaData.ToXAttribute(nameof(metaData)));
 
-            AddToXElement(QueryRq);
+            QueryRq.Add(ActiveStatus.ToXElement(nameof(ActiveStatus)));
 
-            ((QBQuery<Account>)this).AddToXElement(QueryRq);
+            QueryRq.Add(FromModifiedDate.ToXElement(nameof(FromModifiedDate)));
 
-            return QueryRq;
-        }
+            QueryRq.Add(ToModifiedDate.ToXElement(nameof(ToModifiedDate)));
 
-        public new XElement AddToXElement(XElement queryRq)
-        {
-            if (queryRq == null)
-                return null;
+            QueryRq.Add(NameFilter.ToXElement(nameof(NameFilter)));
 
-            queryRq.Add(AccountType?.ToXElementList(nameof(AccountType)));
-            queryRq.Add(CurrencyFilter?.ToXElement(nameof(CurrencyFilter)));
+            QueryRq.Add(NameRangeFilter.ToXElement(nameof(NameRangeFilter)));
 
-            return queryRq;
+            QueryRq.Add(AccountType.ToXElementList(nameof(AccountType)));
+
+            QueryRq.Add(CurrencyFilter.ToXElement(nameof(CurrencyFilter)));
+
+            IncludeRetElementList?.ForEach(IncludeRetElement => QueryRq.Add(IncludeRetElement.ToXElement(nameof(IncludeRetElement))));
+
+            OwnerIDList?.ForEach(OwnerID => QueryRq.Add(OwnerID.ToXElement(nameof(OwnerID))));
+
+            QBXMLMsgsRq.Add(QueryRq);
+
+            return QBXMLMsgsRq;
         }
 
     }

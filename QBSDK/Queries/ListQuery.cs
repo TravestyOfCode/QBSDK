@@ -3,135 +3,10 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 
 namespace QBSDK
-{    
-    public class ListIDQuery<T> : QBQuery<T>
+{
+    public class ListQuery<T> : QBQuery<T>
     {
-        private List<string> ListID;
-        public List<string> ListIDList { get => ListID; set => ListID = value; }        
-
-        public ListIDQuery() : base()
-        {
-        }
-
-        public ListIDQuery(params string[] ListIDs) : this()
-        {
-            ListID = new List<string>();
-            foreach(var id in ListIDs)
-            {
-                this.ListID.Add(id);
-            }
-        }
-
-        public override XElement ToXElement()
-        {
-            var QueryRq = new XElement($"{typeof(T).Name}QueryRq");
-
-            AddToXElement(QueryRq);
-
-            base.AddToXElement(QueryRq);
-
-            return QueryRq;
-        }
-
-        public new XElement AddToXElement(XElement queryRq)
-        {
-            if (queryRq == null)
-                return null;
-
-            // Clear out any existing ListIDs
-            queryRq.Elements(nameof(ListID)).Remove();
-
-            // Add ListIDs
-            foreach (var id in ListID)
-            {
-                queryRq.Add(new XElement(nameof(ListID), id));
-            }
-
-            return queryRq;
-        }
-
-        public override string ToString()
-        {
-            return ToXElement().ToString();
-        }
-    }
-
-    public class FullNameQuery<T> : QBQuery<T>
-    {
-        private List<string> FullName;
-        public List<string> FullNameList { get => FullName; set => FullName = value; }
-
-        public FullNameQuery() : base()
-        {
-        }
-
-        public FullNameQuery(params string[] FullNames) : this()
-        {
-            FullName = new List<string>();
-            foreach (var id in FullNames)
-            {
-                FullName.Add(id);
-            }
-        }
-
-        public override XElement ToXElement()
-        {
-            var QueryRq = new XElement($"{typeof(T).Name}QueryRq");
-
-            AddToXElement(QueryRq);
-
-            base.AddToXElement(QueryRq);
-
-            return QueryRq;
-        }
-
-        public new XElement AddToXElement(XElement queryRq)
-        {
-            if (queryRq == null)
-                return null;
-
-            // Clear out any existing FullNames
-            queryRq.Elements(nameof(FullName)).Remove();
-
-            // Add FullNames at the top
-            foreach (var id in FullName)
-            {
-                queryRq.Add(new XElement(nameof(FullName), id));
-            }
-
-            return queryRq;
-        }
-
-        public override string ToString()
-        {
-            return ToXElement().ToString();
-        }
-    }
-
-    public class ComplexListQuery<T>  : QBQuery<T> // : IQueryRq where T : QBList
-    {
-        private int? maxReturned;
-        public int? MaxReturned
-        {
-            get => maxReturned;
-            set
-            {
-                if (value == null)
-                {
-                    iterator = null;
-                    iteratorID = null;
-                }
-                else
-                {
-                    if (iterator == null)
-                    {
-                        iterator = Iterator.Start;
-                        iteratorID = null;
-                    }
-                }
-                maxReturned = value;
-            }
-        }
+        public MetaData? metaData { get; set; }
 
         public ActiveStatus? ActiveStatus { get; set; }
 
@@ -146,7 +21,7 @@ namespace QBSDK
             set
             {
                 if (nameRangeFilter != null)
-                    throw new InvalidOperationException("Unable to set NameFilter with existing NameRangeFilter.");
+                    throw new InvalidOperationException("Unable to set NameFilter while there is an active NameRangeFilter.");
 
                 nameFilter = value;
             }
@@ -159,57 +34,41 @@ namespace QBSDK
             set
             {
                 if (nameFilter != null)
-                    throw new InvalidOperationException("Unable to set NameRangeFilter with existing NameFilter.");
+                    throw new InvalidOperationException("Unable to set NameRangeFilter while there is an active NameFilter.");
 
                 nameRangeFilter = value;
             }
         }
 
-        public override XElement ToXElement()
+        public List<string> IncludeRetElementList { get; set; }
+
+        public List<string> OwnerIDList { get; set; }
+
+        public override XElement ToQueryRq(QBVersionInfo versionInfo)
         {
-            var QueryRq = new XElement($"{typeof(T)}QueryRq");
+            XElement QBXMLMsgsRq = new XElement(nameof(QBXMLMsgsRq));
 
-            if(MaxReturned != null)
-            {
-                if(iteratorID == null)
-                {
-                    // Start a new iteration
-                    iterator = Iterator.Start;
-                }
-                else
-                {
-                    // Continue iteration
-                    iterator = Iterator.Continue;
-                }
-            }
+            XElement QueryRq = new XElement(QueryType);
 
-            AddToXElement(QueryRq);
-            
-            base.AddToXElement(QueryRq);
+            QueryRq.Add(metaData.ToXAttribute(nameof(metaData)));
 
-            return QueryRq;
+            QueryRq.Add(ActiveStatus.ToXElement(nameof(ActiveStatus)));
+
+            QueryRq.Add(FromModifiedDate.ToXElement(nameof(FromModifiedDate)));
+
+            QueryRq.Add(ToModifiedDate.ToXElement(nameof(ToModifiedDate)));
+
+            QueryRq.Add(NameFilter.ToXElement(nameof(NameFilter)));
+
+            QueryRq.Add(NameRangeFilter.ToXElement(nameof(NameRangeFilter)));
+
+            IncludeRetElementList?.ForEach(IncludeRetElement => QueryRq.Add(IncludeRetElement.ToXElement(nameof(IncludeRetElement))));
+
+            OwnerIDList?.ForEach(OwnerID => QueryRq.Add(OwnerID.ToXElement(nameof(OwnerID))));
+
+            QBXMLMsgsRq.Add(QueryRq);
+
+            return QBXMLMsgsRq;
         }
-
-        public new XElement AddToXElement(XElement queryRq)
-        {
-            if (queryRq == null)
-                return null;
-
-            queryRq.Add(MaxReturned?.ToXElement(nameof(MaxReturned)));
-            queryRq.Add(ActiveStatus?.ToXElement(nameof(ActiveStatus)));
-            queryRq.Add(FromModifiedDate?.ToXElement(nameof(FromModifiedDate)));
-            queryRq.Add(ToModifiedDate?.ToXElement(nameof(ToModifiedDate)));
-            queryRq.Add(NameFilter?.ToXElement(nameof(NameFilter)));
-            queryRq.Add(NameRangeFilter?.ToXElement(nameof(NameRangeFilter)));
-
-            return queryRq;
-
-        }
-
-        public override string ToString()
-        {
-            return ToXElement().ToString();
-        }
-
     }
 }
