@@ -2,41 +2,41 @@
 
 namespace QBSDK
 {
-    public struct TaxLineInfo
+    public class TaxLineInfo
     {
         public int? TaxLineID { get; internal set; }
         public string TaxLineName { get; internal set; }
 
         public bool IsEmpty => TaxLineID == null && TaxLineName == null;
+
+        public void Parse(XElement ret)
+        {
+            if (ret == null)
+                return;
+
+            foreach (var element in ret.Elements())
+            {
+                switch (element.Name.LocalName)
+                {
+                    case nameof(TaxLineID): TaxLineID = element.AsInt(); break;
+                    case nameof(TaxLineName): TaxLineName = element.AsString(); break;
+                }
+            }
+        }
+
+        public static TaxLineInfo Create(XElement ret)
+        {
+            if (ret == null)
+                return null;
+
+            TaxLineInfo result = new TaxLineInfo();
+            result.Parse(ret);
+            return result;
+        }
     }
 
     public static class TaxLineInfoExtensions
     {
-        public static TaxLineInfo? AsTaxLineInfo(this XElement element)
-        {
-            if (element == null)
-            {
-                return null;
-            }
-
-            TaxLineInfo result = new TaxLineInfo();
-
-            foreach (var subElement in element.Elements())
-            {
-                switch (subElement.Name.LocalName)
-                {
-                    case nameof(result.TaxLineID): result.TaxLineID = subElement.AsInt(); break;
-                    case nameof(result.TaxLineName): result.TaxLineName = subElement.AsString(); break;
-                }
-            }
-
-            return result.IsEmpty ? null : result;
-        }
-
-#pragma warning disable IDE0060 // Remove unused parameter: name is for consistencey of AsXElement calls. QBSDK only uses TaxLineID as a standalone value
-        public static XElement ToXElement(this TaxLineInfo? value, string name) => value == null ? null : new XElement(nameof(value.Value.TaxLineID), value.Value.TaxLineID);
-        public static XElement ToXElement(this TaxLineInfo value, string name) => new XElement(nameof(value.TaxLineID), value.TaxLineID);
-#pragma warning restore IDE0060 // Remove unused parameter
-
+        public static TaxLineInfo AxTaxLineInfo(this XElement ret) => TaxLineInfo.Create(ret);
     }
 }

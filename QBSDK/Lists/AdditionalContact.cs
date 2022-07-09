@@ -8,12 +8,12 @@ namespace QBSDK
 
         public string ContactValue { get; set; }
 
-        public void Parse(XElement AdditionalContactRet)
+        public void Parse(XElement ret)
         {
-            if (AdditionalContactRet == null)
+            if (ret == null)
                 return;
 
-            foreach (var element in AdditionalContactRet.Elements())
+            foreach (var element in ret.Elements())
             {
                 switch (element.Name.LocalName)
                 {
@@ -23,20 +23,20 @@ namespace QBSDK
             }
         }
 
-        public static AdditionalContact Create(XElement AdditionalContactRef)
+        public static AdditionalContact Create(XElement ret)
         {
-            if (AdditionalContactRef == null)
+            if (ret == null)
                 return null;
 
             AdditionalContact result = new AdditionalContact();
-            result.Parse(AdditionalContactRef);
+            result.Parse(ret);
             return result;
         }
     }
 
     public static class AdditionalContactExtensions
     {
-        public static AdditionalContact AsAdditionalContact(this XElement element) => AdditionalContact.Create(element);
+        public static AdditionalContact AsAdditionalContact(this XElement ret) => AdditionalContact.Create(ret);
         
     }
 }

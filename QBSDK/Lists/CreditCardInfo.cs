@@ -11,12 +11,12 @@ namespace QBSDK
         public string CreditCardAddress { get; set; }
         public string CreditCardPostalCode { get; set; }
 
-        public void Parse(XElement CreditCardInfoRet)
+        public void Parse(XElement ret)
         {
-            if (CreditCardInfoRet == null)
+            if (ret == null)
                 return;
 
-            foreach (var element in CreditCardInfoRet.Elements())
+            foreach (var element in ret.Elements())
             {
                 switch(element.Name.LocalName)
                 {
@@ -30,19 +30,19 @@ namespace QBSDK
             }
         }
 
-        public static CreditCardInfo Create(XElement CreditCardInfoRet)
+        public static CreditCardInfo Create(XElement ret)
         {
-            if (CreditCardInfoRet == null)
+            if (ret == null)
                 return null;
 
             CreditCardInfo result = new CreditCardInfo();
-            result.Parse(CreditCardInfoRet);
+            result.Parse(ret);
             return result;
         }
     }
 
     public static class CreditCardInfoExtensions
     {
-        public static CreditCardInfo AsCreditCardInfo(this XElement element) => CreditCardInfo.Create(element);
+        public static CreditCardInfo AsCreditCardInfo(this XElement ret) => CreditCardInfo.Create(ret);
     }
 }

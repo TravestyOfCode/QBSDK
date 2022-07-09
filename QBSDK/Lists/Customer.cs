@@ -99,14 +99,14 @@ namespace QBSDK
         private List<DataExt> DataExt;
         public List<DataExt> DataExtList { get => DataExt; set => DataExt = value; }
 
-        public new void Parse(XElement CustomerRet)
+        public new void Parse(XElement ret)
         {
-            if (CustomerRet == null)
+            if (ret == null)
                 return;
 
-            base.Parse(CustomerRet);
+            base.Parse(ret);
 
-            foreach(var element in CustomerRet.Elements())
+            foreach(var element in ret.Elements())
             {
                 switch(element.Name.LocalName)
                 {
@@ -172,19 +172,19 @@ namespace QBSDK
             }
         }
 
-        public static Customer Create(XElement element)
+        public static Customer Create(XElement ret)
         {
-            if (element == null)
+            if (ret == null)
                 return null;
 
             Customer result = new Customer();
-            result.Parse(element);
+            result.Parse(ret);
             return result;
         }
     }
 
     public static class CustomerExtensions
     {
-        public static Customer AsCustomer(this XElement element) => Customer.Create(element);
+        public static Customer AsCustomer(this XElement ret) => Customer.Create(ret);
     }
 }

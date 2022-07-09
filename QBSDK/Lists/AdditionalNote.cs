@@ -11,12 +11,12 @@ namespace QBSDK
 
         public string Note { get; set; }
 
-        public void Parse(XElement AdditionalNotesRet)
+        public void Parse(XElement ret)
         {
-            if (AdditionalNotesRet == null)
+            if (ret == null)
                 return;
 
-            foreach(var element in AdditionalNotesRet.Elements())
+            foreach(var element in ret.Elements())
             {
                 switch(element.Name.LocalName)
                 {
@@ -27,19 +27,19 @@ namespace QBSDK
             }
         }
 
-        public static AdditionalNote Create(XElement AdditionalNotesRet)
+        public static AdditionalNote Create(XElement ret)
         {
-            if (AdditionalNotesRet == null)
+            if (ret == null)
                 return null;
 
             AdditionalNote result = new AdditionalNote();
-            result.Parse(AdditionalNotesRet);
+            result.Parse(ret);
             return result;
         }
     }
 
     public static class AddtionalNoteExtensions
     {
-        public static AdditionalNote AsAdditionalNote(this XElement element) => AdditionalNote.Create(element);
+        public static AdditionalNote AsAdditionalNote(this XElement ret) => AdditionalNote.Create(ret);
     }
 }

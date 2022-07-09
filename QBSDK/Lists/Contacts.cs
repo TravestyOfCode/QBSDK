@@ -29,12 +29,12 @@ namespace QBSDK
         private List<AdditionalContact> AdditionalContactRef;
         public List<AdditionalContact> AdditionalContactList { get => AdditionalContactRef; set => AdditionalContactRef = value; }
 
-        public void Parse(XElement ContactsRet)
+        public void Parse(XElement ret)
         {
-            if (ContactsRet == null)
+            if (ret == null)
                 return;
 
-            foreach(var element in ContactsRet.Elements())
+            foreach(var element in ret.Elements())
             {
                 switch(element.Name.LocalName)
                 {
@@ -59,20 +59,20 @@ namespace QBSDK
             }
         }
     
-        public static Contacts Create(XElement ContactsRet)
+        public static Contacts Create(XElement ret)
         {
-            if (ContactsRet == null)
+            if (ret == null)
                 return null;
 
             Contacts result = new Contacts();
-            result.Parse(ContactsRet);
+            result.Parse(ret);
             return result;
         }
     }
 
     public static class ContactsExtensions
     {
-        public static Contacts AsContacts(this XElement element) => Contacts.Create(element);
+        public static Contacts AsContacts(this XElement ret) => Contacts.Create(ret);
         
     }
 }
