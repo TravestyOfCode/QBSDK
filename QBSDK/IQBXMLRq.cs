@@ -6,10 +6,10 @@ namespace QBSDK
     {
         public void Parse(XElement ret);
 
-        public XElement ToAddRq(QBVersionInfo versionInfo = null);
+        public XElement ToAddRq(QBCountry qbCountry = QBCountry.US);
 
-        public XElement ToModRq(QBVersionInfo versionInfo = null);
+        public XElement ToModRq(QBCountry qbCountry = QBCountry.US);
 
-        public XElement ToDelRq(QBVersionInfo versionInfo = null);
+        public XElement ToDelRq(QBCountry qbCountry = QBCountry.US);
     }
 }

@@ -6,7 +6,9 @@ namespace QBSDK
 {
     public class ListQuery<T> : QBQuery<T>
     {
+#pragma warning disable IDE1006 // Naming Styles - We use nameof(metaData) and QB requires to start with lowercase
         public MetaData? metaData { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
 
         public ActiveStatus? ActiveStatus { get; set; }
 
@@ -44,7 +46,7 @@ namespace QBSDK
 
         public List<string> OwnerIDList { get; set; }
 
-        public override XElement ToQueryRq(QBVersionInfo versionInfo)
+        public override XElement ToQueryRq(QBCountry qbCountry = QBCountry.US)
         {
             XElement QBXMLMsgsRq = new XElement(nameof(QBXMLMsgsRq));
 

@@ -12,7 +12,7 @@ namespace QBSDK
 
         public BaseRefChildrenFilter ClassFilter { get; set; }
 
-        public override XElement ToQueryRq(QBVersionInfo versionInfo)
+        public override XElement ToQueryRq(QBCountry qbCountry = QBCountry.US)
         {
             XElement QBXMLMsgsRq = new XElement(nameof(QBXMLMsgsRq));
 

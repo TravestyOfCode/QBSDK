@@ -109,153 +109,74 @@ namespace QBSDK
         private List<DataExt> DataExtRet;
         public List<DataExt> DataExtList { get => DataExtRet; set => DataExtRet = value; }
 
-        public override XElement ToAddRq(QBVersionInfo versionInfo = null)
+        public override XElement ToAddRq(QBCountry qbCountry = QBCountry.US)
         {
-            versionInfo ??= new QBVersionInfo();
-
             XElement CustomerAdd = new XElement(nameof(CustomerAdd));
             CustomerAdd.Add(Name?.ToXElement(nameof(Name)));
             CustomerAdd.Add(IsActive?.ToXElement(nameof(IsActive)));
-            if(versionInfo.Version.Major >= 12)
-                CustomerAdd.Add(ClassRef?.ToXElement(nameof(ClassRef)));
+            CustomerAdd.Add(ClassRef?.ToXElement(nameof(ClassRef)));
             CustomerAdd.Add(ParentRef?.ToXElement(nameof(ParentRef)));
             CustomerAdd.Add(CompanyName?.ToXElement(nameof(CompanyName)));
             CustomerAdd.Add(Salutation?.ToXElement(nameof(Salutation)));
             CustomerAdd.Add(FirstName?.ToXElement(nameof(FirstName)));
             CustomerAdd.Add(MiddleName?.ToXElement(nameof(MiddleName)));
             CustomerAdd.Add(LastName?.ToXElement(nameof(LastName)));
-            if (versionInfo.Version.Major >= 12)
-                CustomerAdd.Add(JobTitle?.ToXElement(nameof(JobTitle)));
-            // NOTE: Can't use BillAddress?.ToXElement as some inner fields have different
-            // version requirements even between Customer/Employee/Vendor addresses.
-            if (BillAddress != null)
-            {
-                XElement BillAddressXElement = new XElement(nameof(BillAddress));
-                BillAddressXElement.Add(BillAddress?.Addr1?.ToXElement(nameof(BillAddress.Addr1)));
-                BillAddressXElement.Add(BillAddress?.Addr2?.ToXElement(nameof(BillAddress.Addr2)));
-                BillAddressXElement.Add(BillAddress?.Addr3?.ToXElement(nameof(BillAddress.Addr3)));
-                if (versionInfo.Version.Major >= 2)
-                    BillAddressXElement.Add(BillAddress?.Addr4?.ToXElement(nameof(BillAddress.Addr4)));
-                if (versionInfo.Version.Minor >= 6)
-                    BillAddressXElement.Add(BillAddress?.Addr5?.ToXElement(nameof(BillAddress.Addr5)));
-                BillAddressXElement.Add(BillAddress?.City?.ToXElement(nameof(BillAddress.City)));
-                BillAddressXElement.Add(BillAddress?.State?.ToXElement(nameof(BillAddress.State)));
-                BillAddressXElement.Add(BillAddress?.PostalCode?.ToXElement(nameof(BillAddress.PostalCode)));
-                BillAddressXElement.Add(BillAddress?.Country?.ToXElement(nameof(BillAddress.Country)));
-                if (versionInfo.Version.Major >= 6)
-                    BillAddressXElement.Add(BillAddress?.Note?.ToXElement(nameof(BillAddress.Note)));
-                CustomerAdd.Add(BillAddressXElement);
-            }
-            // NOTE: Can't use ShipAddress?.ToXElement as some inner fields have different
-            // version requirements even between Customer/Employee/Vendor addresses.
-            if (ShipAddress != null)
-            {
-                XElement ShipAddressXElement = new XElement(nameof(ShipAddress));
-                ShipAddressXElement.Add(ShipAddress?.Addr1?.ToXElement(nameof(ShipAddress.Addr1)));
-                ShipAddressXElement.Add(ShipAddress?.Addr2?.ToXElement(nameof(ShipAddress.Addr2)));
-                ShipAddressXElement.Add(ShipAddress?.Addr3?.ToXElement(nameof(ShipAddress.Addr3)));
-                if (versionInfo.Version.Major >= 2)
-                    ShipAddressXElement.Add(ShipAddress?.Addr4?.ToXElement(nameof(ShipAddress.Addr4)));
-                if (versionInfo.Version.Minor >= 6)
-                    ShipAddressXElement.Add(ShipAddress?.Addr5?.ToXElement(nameof(ShipAddress.Addr5)));
-                ShipAddressXElement.Add(ShipAddress?.City?.ToXElement(nameof(ShipAddress.City)));
-                ShipAddressXElement.Add(ShipAddress?.State?.ToXElement(nameof(ShipAddress.State)));
-                ShipAddressXElement.Add(ShipAddress?.PostalCode?.ToXElement(nameof(ShipAddress.PostalCode)));
-                ShipAddressXElement.Add(ShipAddress?.Country?.ToXElement(nameof(ShipAddress.Country)));
-                if (versionInfo.Version.Major >= 6)
-                    ShipAddressXElement.Add(ShipAddress?.Note?.ToXElement(nameof(ShipAddress.Note)));
-                CustomerAdd.Add(ShipAddressXElement);
-            }
-            // NOTE: Can't use ShipToAddress?.ToXElement as some inner fields have different
-            // version requirements even between Customer/Employee/Vendor addresses.
-            if(ShipToAddress != null)
-            {
-                foreach(var shipTo in ShipToAddress)
-                {
-                    XElement ShipToAddressXElement = new XElement(nameof(ShipToAddress));
-                    ShipToAddressXElement.Add(shipTo?.Addr1?.ToXElement(nameof(shipTo.Addr1)));
-                    ShipToAddressXElement.Add(shipTo?.Addr2?.ToXElement(nameof(shipTo.Addr2)));
-                    ShipToAddressXElement.Add(shipTo?.Addr3?.ToXElement(nameof(shipTo.Addr3)));
-                    if (versionInfo.Version.Major >= 2)
-                        ShipToAddressXElement.Add(shipTo?.Addr4?.ToXElement(nameof(shipTo.Addr4)));
-                    if (versionInfo.Version.Minor >= 6)
-                        ShipToAddressXElement.Add(shipTo?.Addr5?.ToXElement(nameof(shipTo.Addr5)));
-                    ShipToAddressXElement.Add(shipTo?.City?.ToXElement(nameof(shipTo.City)));
-                    ShipToAddressXElement.Add(shipTo?.State?.ToXElement(nameof(shipTo.State)));
-                    ShipToAddressXElement.Add(shipTo?.PostalCode?.ToXElement(nameof(shipTo.PostalCode)));
-                    ShipToAddressXElement.Add(shipTo?.Country?.ToXElement(nameof(shipTo.Country)));
-                    if (versionInfo.Version.Major >= 6)
-                        ShipToAddressXElement.Add(shipTo?.Note?.ToXElement(nameof(shipTo.Note)));
-                    CustomerAdd.Add(ShipToAddressXElement);
-                }
-            }
+            CustomerAdd.Add(JobTitle?.ToXElement(nameof(JobTitle)));
+            CustomerAdd.Add(BillAddress?.ToXElement(nameof(BillAddress)));
+            CustomerAdd.Add(ShipAddress?.ToXElement(nameof(ShipAddress)));
+            CustomerAdd.Add(ShipToAddress?.ToXElement(nameof(ShipToAddress)));
             CustomerAdd.Add(Phone?.ToXElement(nameof(Phone)));
             CustomerAdd.Add(AltPhone?.ToXElement(nameof(AltPhone)));
             CustomerAdd.Add(Fax?.ToXElement(nameof(Fax)));
             CustomerAdd.Add(Email?.ToXElement(nameof(Email)));
-            if(versionInfo.Version.Major >= 12)
-                CustomerAdd.Add(Cc?.ToXElement(nameof(Cc)));
+            CustomerAdd.Add(Cc?.ToXElement(nameof(Cc)));
             CustomerAdd.Add(Contact?.ToXElement(nameof(Contact)));
             CustomerAdd.Add(AltContact?.ToXElement(nameof(AltContact)));
-            if (versionInfo.Version.Major >= 12)
-            {
-                CustomerAdd.Add(AdditionalContactRef?.ToXElement(nameof(AdditionalContactRef)));
-                CustomerAdd.Add(ContactsRet?.ToXElement(nameof(Contacts)));
-            }
+            CustomerAdd.Add(AdditionalContactRef?.ToXElement(nameof(AdditionalContactRef)));
+            CustomerAdd.Add(ContactsRet?.ToXElement(nameof(Contacts)));
             CustomerAdd.Add(CustomerTypeRef?.ToXElement(nameof(CustomerTypeRef)));
             CustomerAdd.Add(TermsRef?.ToXElement(nameof(TermsRef)));
             CustomerAdd.Add(SalesRepRef?.ToXElement(nameof(SalesRepRef)));
             CustomerAdd.Add(OpenBalance?.ToXElement(nameof(OpenBalance)));
             CustomerAdd.Add(OpenBalanceDate?.ToXElement(nameof(OpenBalanceDate)));
             CustomerAdd.Add(SalesTaxCodeRef?.ToXElement(nameof(SalesTaxCodeRef)));
-            if(versionInfo.CountryCode == "US")
+            if (qbCountry.HasFlag(QBCountry.US))
                 CustomerAdd.Add(ItemSalesTaxRef?.ToXElement(nameof(ItemSalesTaxRef)));
-            if(versionInfo.Version.Major >= 6 && "CA|UK".Contains(versionInfo.CountryCode))
+            if (qbCountry.HasFlag(QBCountry.CA) | qbCountry.HasFlag(QBCountry.UK))
                 CustomerAdd.Add(SalesTaxCountry?.ToXElement(nameof(SalesTaxCountry)));
             CustomerAdd.Add(ResaleNumber?.ToXElement(nameof(ResaleNumber)));
             CustomerAdd.Add(AccountNumber?.ToXElement(nameof(AccountNumber)));
             CustomerAdd.Add(CreditLimit?.ToXElement(nameof(CreditLimit)));
-            if (versionInfo.Version.Major >= 3)
-            {
-                CustomerAdd.Add(PreferredPaymentMethodRef?.ToXElement(nameof(PreferredPaymentMethodRef)));
-                CustomerAdd.Add(CreditCardInfo?.ToXElement(nameof(CreditCardInfo)));
-            }
+            CustomerAdd.Add(PreferredPaymentMethodRef?.ToXElement(nameof(PreferredPaymentMethodRef)));
+            CustomerAdd.Add(CreditCardInfo?.ToXElement(nameof(CreditCardInfo)));
             CustomerAdd.Add(JobStatus?.ToXElement(nameof(JobStatus)));
             CustomerAdd.Add(JobStartDate?.ToXElement(nameof(JobStartDate)));
             CustomerAdd.Add(JobProjectedEndDate?.ToXElement(nameof(JobProjectedEndDate)));
             CustomerAdd.Add(JobEndDate?.ToXElement(nameof(JobEndDate)));
             CustomerAdd.Add(JobDesc?.ToXElement(nameof(JobDesc)));
             CustomerAdd.Add(JobTypeRef?.ToXElement(nameof(JobTypeRef)));
-            if(versionInfo.Version.Major >= 3)
-                CustomerAdd.Add(Notes?.ToXElement(nameof(Notes)));
-            if (versionInfo.Version.Major >= 12)
-            {
-                CustomerAdd.Add(AdditionalNotesRet?.ToXElement(nameof(AdditionalNotes)));
-                CustomerAdd.Add(PreferredDeliveryMethod?.ToXElement(nameof(PreferredDeliveryMethod)));
-            }
-            if(versionInfo.Version.Major >= 4)
-                CustomerAdd.Add(PriceLevelRef?.ToXElement(nameof(PriceLevelRef)));
+            CustomerAdd.Add(Notes?.ToXElement(nameof(Notes)));
+            CustomerAdd.Add(AdditionalNotesRet?.ToXElement(nameof(AdditionalNotes)));
+            CustomerAdd.Add(PreferredDeliveryMethod?.ToXElement(nameof(PreferredDeliveryMethod)));
+            CustomerAdd.Add(PriceLevelRef?.ToXElement(nameof(PriceLevelRef)));
             //CustomerAdd.Add(ExternalGUID?.ToXElement(nameof(ExternalGUID)));
-            if (versionInfo.Version.Major >= 8)
-            {
-                CustomerAdd.Add(TaxRegistrationNumber?.ToXElement(nameof(TaxRegistrationNumber)));
-                CustomerAdd.Add(CurrencyRef?.ToXElement(nameof(CurrencyRef)));
-            }
+            CustomerAdd.Add(TaxRegistrationNumber?.ToXElement(nameof(TaxRegistrationNumber)));
+            CustomerAdd.Add(CurrencyRef?.ToXElement(nameof(CurrencyRef)));
 
             //XElement CustomerAddRq = new XElement(nameof(CustomerAddRq));
             //CustomerAddRq.Add(CustomerAdd);
             //if (versionInfo.Version.Major >= 4)
             //    CustomerAddRq.Add(IncludeRetElement?.ToXElementList(nameof(IncludeRetElement)));
-            
+
             return CustomerAdd;
         }
 
-        public override XElement ToModRq(QBVersionInfo versionInfo = null)
+        public override XElement ToModRq(QBCountry qbCountry = QBCountry.US)
         {
             throw new NotImplementedException();
         }
 
-        public override XElement ToDelRq(QBVersionInfo versionInfo = null)
+        public override XElement ToDelRq(QBCountry qbCountry = QBCountry.US)
         {
             throw new NotImplementedException();
         }

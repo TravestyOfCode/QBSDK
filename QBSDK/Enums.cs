@@ -1,5 +1,9 @@
-﻿namespace QBSDK
+﻿using System;
+
+namespace QBSDK
 {
+    [Flags]
+    public enum QBCountry { US, CA, UK, Any = US | CA | UK }
     public enum Iterator { Start, Continue, Stop }
     public enum MetaData { NoMetaData, MetaDataOnly, MetaDataAndResponseData }
     public enum ActiveStatus { ActiveOnly, InactiveOnly, All }

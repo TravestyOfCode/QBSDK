@@ -45,14 +45,12 @@ namespace QBSDK
             return doc;
         }
 
-        public List<T> ProcessQuery<T>(QBQuery<T> query, QBVersionInfo version = null) where T : QBObject, new()
+        public List<T> ProcessQuery<T>(QBQuery<T> query, QBCountry qbCountry = QBCountry.US) where T : QBObject, new()
         {
             if (query == null)
                 throw new ArgumentNullException(nameof(query));
 
-            version ??= new QBVersionInfo();
-
-            XDocument doc = ProcessRequest(query.ToQueryRq(version));
+            XDocument doc = ProcessRequest(query.ToQueryRq(qbCountry));
 
             XElement QBXMLMsgsRs = doc.Descendants(nameof(QBXMLMsgsRs)).FirstOrDefault();
 
@@ -93,7 +91,7 @@ namespace QBSDK
             return results;
         }
 
-        private string CreateQBXML(XElement request, string onError = "stopOnError")
+        private static string CreateQBXML(XElement request, string onError = "stopOnError")
         {
             XDocument doc = new XDocument();
             doc.Add(new XProcessingInstruction("qbxml", "version=\"13.0\""));

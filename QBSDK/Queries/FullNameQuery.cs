@@ -26,10 +26,8 @@ namespace QBSDK
             }
         }
 
-        public override XElement ToQueryRq(QBVersionInfo versionInfo = null)
+        public override XElement ToQueryRq(QBCountry qbCountry = QBCountry.US)
         {
-            versionInfo ??= new QBVersionInfo();
-
             XElement QBXMLMsgsRq = new XElement(nameof(QBXMLMsgsRq));
 
             XElement QueryRq = new XElement(QueryType);

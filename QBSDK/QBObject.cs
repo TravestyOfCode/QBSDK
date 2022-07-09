@@ -31,10 +31,10 @@ namespace QBSDK
 
         public abstract void Parse(XElement ret);
 
-        public abstract XElement ToAddRq(QBVersionInfo versionInfo = null);
+        public abstract XElement ToAddRq(QBCountry qbCountry = QBCountry.US);
 
-        public abstract XElement ToModRq(QBVersionInfo versionInfo = null);
+        public abstract XElement ToModRq(QBCountry qbCountry = QBCountry.US);
 
-        public abstract XElement ToDelRq(QBVersionInfo versionInfo = null);
+        public abstract XElement ToDelRq(QBCountry qbCountry = QBCountry.US);
     }
 }

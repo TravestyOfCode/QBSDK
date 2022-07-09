@@ -46,10 +46,8 @@ namespace QBSDK
             set => DataExtRet = value;
         }
 
-        public override XElement ToAddRq(QBVersionInfo versionInfo = null)
-        {
-            versionInfo ??= new QBVersionInfo();
-            
+        public override XElement ToAddRq(QBCountry qbCountry = QBCountry.US)
+        {   
             XElement AccountAdd = new XElement(nameof(AccountAdd));
             AccountAdd.Add(Name?.ToXElement(nameof(Name)));
             AccountAdd.Add(IsActive?.ToXElement(nameof(IsActive)));
@@ -60,12 +58,11 @@ namespace QBSDK
             AccountAdd.Add(Desc?.ToXElement(nameof(Desc)));
             AccountAdd.Add(OpenBalance?.ToXElement(nameof(OpenBalance)));
             AccountAdd.Add(OpenBalanceDate?.ToXElement(nameof(OpenBalanceDate)));            
-            if (versionInfo.Version.Major >= 6 && (versionInfo.CountryCode == "CA" || versionInfo.CountryCode == "UK"))
+            if(qbCountry.HasFlag(QBCountry.CA) | qbCountry.HasFlag(QBCountry.UK))            
                 AccountAdd.Add(SalesTaxCodeRef?.ToXElement(nameof(SalesTaxCodeRef)));
-            if (versionInfo.Version.Major >= 7 && (versionInfo.CountryCode == "US" || versionInfo.CountryCode == "CA"))
+            if(qbCountry.HasFlag(QBCountry.US) || qbCountry.HasFlag(QBCountry.CA))            
                 AccountAdd.Add(TaxLineInfo?.ToXElement(nameof(TaxLineInfo)));
-            if (versionInfo.Version.Major >= 8)
-                AccountAdd.Add(CurrencyRef?.ToXElement(nameof(CurrencyRef)));
+            AccountAdd.Add(CurrencyRef?.ToXElement(nameof(CurrencyRef)));
 
             //XElement AccountAddRq = new XElement(nameof(AccountAddRq));
             //AccountAddRq.Add(AccountAdd);
@@ -75,12 +72,8 @@ namespace QBSDK
             return AccountAdd;
         }
 
-        public override XElement ToModRq(QBVersionInfo versionInfo = null)
-        {
-            versionInfo ??= new QBVersionInfo();
-            if (versionInfo.Version.Major < 6)
-                return null;
-
+        public override XElement ToModRq(QBCountry qbCountry = QBCountry.US)
+        {            
             XElement AccountMod = new XElement(nameof(AccountMod));
             AccountMod.Add(ListID?.ToXElement(nameof(ListID)));
             AccountMod.Add(EditSequence?.ToXElement(nameof(EditSequence)));
@@ -93,12 +86,11 @@ namespace QBSDK
             AccountMod.Add(Desc?.ToXElement(nameof(Desc)));
             AccountMod.Add(OpenBalance?.ToXElement(nameof(OpenBalance)));
             AccountMod.Add(OpenBalanceDate?.ToXElement(nameof(OpenBalanceDate)));            
-            if (versionInfo.Version.Major >= 6 && (versionInfo.CountryCode == "CA" || versionInfo.CountryCode == "UK"))
+            if(qbCountry.HasFlag(QBCountry.CA) || qbCountry.HasFlag(QBCountry.UK))            
                 AccountMod.Add(SalesTaxCodeRef?.ToXElement(nameof(SalesTaxCodeRef)));
-            if (versionInfo.Version.Major >= 7 && (versionInfo.CountryCode == "US" || versionInfo.CountryCode == "CA"))
+            if (qbCountry.HasFlag(QBCountry.CA) || qbCountry.HasFlag(QBCountry.US))
                 AccountMod.Add(TaxLineInfo?.ToXElement(nameof(TaxLineInfo)));
-            if (versionInfo.Version.Major >= 8)
-                AccountMod.Add(CurrencyRef?.ToXElement(nameof(CurrencyRef)));
+            AccountMod.Add(CurrencyRef?.ToXElement(nameof(CurrencyRef)));
 
             //XElement AccountModRq = new XElement(nameof(AccountModRq));
             //AccountModRq.Add(AccountMod);
@@ -108,12 +100,8 @@ namespace QBSDK
             return AccountMod;
         }
 
-        public override XElement ToDelRq(QBVersionInfo versionInfo = null)
-        {
-            versionInfo ??= new QBVersionInfo();            
-            if (versionInfo.Version < new Version(1,1))
-                return null;
-
+        public override XElement ToDelRq(QBCountry qbCountry = QBCountry.US)
+        {            
             XElement ListDelRq = new XElement(nameof(ListDelRq));
             ListDelRq.Add(ListDelType.ToXElement(nameof(ListDelType)));
             ListDelRq.Add(ListID?.ToXElement(nameof(ListID)));
