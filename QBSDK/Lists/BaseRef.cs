@@ -18,12 +18,12 @@ namespace QBSDK
             FullName = fullName;
         }
 
-        public void Parse(XElement BaseRef)
+        public void Parse(XElement ret)
         {
-            if (BaseRef == null)
+            if (ret == null)
                 return;
 
-            foreach(var element in BaseRef.Elements())
+            foreach(var element in ret.Elements())
             {
                 switch(element.Name.LocalName)
                 {
@@ -33,58 +33,31 @@ namespace QBSDK
             }
         }
 
-        public static BaseRef Create(XElement BaseRef)
+        public XElement ToXElement(string name)
         {
-            if (BaseRef == null)
+            XElement result = new XElement(name);
+
+            if (ListID != null)
+                result.Add(new XElement(nameof(ListID), ListID));
+            else if (FullName != null)
+                result.Add(new XElement(nameof(FullName), FullName));
+
+            return result;
+        }
+
+        public static BaseRef Create(XElement ret)
+        {
+            if (ret == null)
                 return null;
 
             BaseRef result = new BaseRef();
-            result.Parse(BaseRef);
+            result.Parse(ret);
             return result;
         }
     }
 
     public static class BaseRefExtensions
     {
-        public static BaseRef AsBaseRef(this XElement element)
-        {
-            if (element == null)
-            {
-                return null;
-            }
-
-            BaseRef result = new BaseRef();
-
-            foreach (XElement subElement in element.Elements())
-            {
-                switch (subElement.Name.LocalName)
-                {
-                    case nameof(result.ListID): result.ListID = subElement.AsString(); break;
-                    case nameof(result.FullName): result.FullName = subElement.AsString(); break;
-                }
-            }
-
-            if (result.IsEmpty)
-            {
-                return null;
-            }
-
-            return result;
-        }
-
-        public static XElement ToXElement(this BaseRef value, string name)
-        {
-            if (value == null)
-                return null;
-
-            XElement result = new XElement(name);
-
-            if (value.ListID != null)
-                result.Add(new XElement(nameof(value.ListID), value.ListID));
-            else if (value.FullName != null)
-                result.Add(new XElement(nameof(value.FullName), value.FullName));
-
-            return result;
-        }
+        public static BaseRef AsBaseRef(this XElement ret) => BaseRef.Create(ret);
     }
 }
