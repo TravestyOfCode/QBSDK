@@ -7,15 +7,15 @@ namespace QBSDK
     public static class QBXMLExtensions
     {
         public static XElement ToXElement(this Enum value, string name) => value == null ? null : new XElement(name, value);        
-        public static XElement ToXElement(this int? value, string name) => value == null ? null : value.Value.ToXElement(name);
+        public static XElement ToXElement(this int? value, string name) => value?.ToXElement(name);
         public static XElement ToXElement(this int value, string name) => new XElement(name, value);
-        public static XElement ToXElement(this DateTime? value, string name) => value == null ? null : value.Value.ToXElement(name);
+        public static XElement ToXElement(this DateTime? value, string name) => value?.ToXElement(name);
         public static XElement ToXElement(this DateTime value, string name) => new XElement(name, value.ToString("yyyy-MM-dd"));
         public static XElement ToXElement(this string value, string name) => value == null ? null : new XElement(name, value);
         public static XElement ToXElement(this decimal value, string name, int decimalPlaces = 2) => new XElement(name, value.ToString($"F{decimalPlaces}"));
-        public static XElement ToXElement(this decimal? value, string name, int decimalPlaces = 2) => value == null ? null : value.Value.ToXElement(name, decimalPlaces);
+        public static XElement ToXElement(this decimal? value, string name, int decimalPlaces = 2) => value?.ToXElement(name, decimalPlaces);
         public static XElement ToXElement(this bool value, string name) => new XElement(name, value ? "true" : "false");
-        public static XElement ToXElement(this bool? value, string name) => value == null ? null : value.Value.ToXElement(name);
+        public static XElement ToXElement(this bool? value, string name) => value?.ToXElement(name);
         public static List<XElement> ToXElementList<T>(this List<T> values, string name) where T : Enum
         {
             if (values == null)

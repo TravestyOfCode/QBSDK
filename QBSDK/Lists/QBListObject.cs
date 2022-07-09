@@ -84,7 +84,7 @@ namespace QBSDK
                     case nameof(EditSequence): EditSequence = element.AsString(); break;
                     case nameof(Name): Name = element.AsString(); break;
                     case nameof(IsActive): IsActive = element.AsBool(); break;
-                    case nameof(ParentRef): ParentRef = element.AsBaseRef(); break;
+                    case nameof(ParentRef): ParentRef = element; break;
                 }
             }
         }

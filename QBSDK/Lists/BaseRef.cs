@@ -33,7 +33,7 @@ namespace QBSDK
             }
         }
 
-        public XElement ToXElement(string name)
+        public XElement ToXElement(string name = nameof(BaseRef))
         {
             XElement result = new XElement(name);
 
@@ -45,6 +45,10 @@ namespace QBSDK
             return result;
         }
 
+        public override string ToString() => ToXElement().ToString();
+
+        public string ToString(string name) => ToXElement(name).ToString();
+
         public static BaseRef Create(XElement ret)
         {
             if (ret == null)
@@ -54,10 +58,7 @@ namespace QBSDK
             result.Parse(ret);
             return result;
         }
-    }
 
-    public static class BaseRefExtensions
-    {
-        public static BaseRef AsBaseRef(this XElement ret) => BaseRef.Create(ret);
+        public static implicit operator BaseRef(XElement ret) => Create(ret);
     }
 }

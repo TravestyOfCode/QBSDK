@@ -28,13 +28,23 @@ namespace QBSDK
 
         public BaseRef SalesTaxCodeRef { get; set; }
 
-        public TaxLineInfo? TaxLineInfo { get; set; }
+        private TaxLineInfo TaxLineInfoRet;
+        public TaxLineInfo TaxLineInfo
+        {
+            get => TaxLineInfoRet;
+            set => TaxLineInfoRet = value;
+        }
 
         public CashFlowClassification? CashFlowClassification { get; set; }
 
         public BaseRef CurrencyRef { get; set; }
 
-        public List<DataExt> DataExt { get; set; }
+        private List<DataExt> DataExtRet;
+        public List<DataExt> DataExt
+        {
+            get => DataExtRet;
+            set => DataExtRet = value;
+        }
 
         public override XElement ToAddRq(QBVersionInfo versionInfo = null)
         {
@@ -109,24 +119,49 @@ namespace QBSDK
                     case nameof(Desc): Desc = element.AsString(); break;
                     case nameof(Balance): Balance = element.AsDecimal(); break;
                     case nameof(TotalBalance): TotalBalance = element.AsDecimal(); break;
-                    case "TaxLineInfoRet": TaxLineInfo = element.AsTaxLineInfo(); break;
+                    case nameof(TaxLineInfoRet): TaxLineInfoRet = element; break;
                     case nameof(CashFlowClassification): CashFlowClassification = element.AsEnum<CashFlowClassification>(); break;
-                    case nameof(CurrencyRef): CurrencyRef = element.AsBaseRef(); break;
+                    case nameof(CurrencyRef): CurrencyRef = element; break;
                     case "DataExtRet":
                         if (DataExt == null)
                         {
                             DataExt = new List<DataExt>();
                         }
-                        DataExt.Add(element.AsDataExt());
+                        DataExt.Add(element);
                         break;
                 }
             }
         }
 
-        public override string ToString()
+        public XElement ToXElement(string name = nameof(Account))
         {
-            return AccountNumber == null ? FullName : $"{AccountNumber} - {FullName}";
+            XElement result = new XElement(name);
+            result.Add(ListID.ToXElement(nameof(ListID)));
+            result.Add(TimeCreated.ToXElement(nameof(TimeCreated)));
+            result.Add(TimeModified.ToXElement(nameof(TimeModified)));
+            result.Add(EditSequence.ToXElement(nameof(EditSequence)));
+            result.Add(Name.ToXElement(nameof(Name)));
+            result.Add(FullName.ToXElement(nameof(FullName)));
+            result.Add(IsActive.ToXElement(nameof(IsActive)));
+            result.Add(ParentRef.ToXElement(nameof(ParentRef)));
+            result.Add(Sublevel.ToXElement(nameof(Sublevel)));
+            result.Add(AccountType.ToXElement(nameof(AccountType)));
+            result.Add(SpecialAccountType.ToXElement(nameof(SpecialAccountType)));
+            result.Add(AccountNumber.ToXElement(nameof(AccountNumber)));
+            result.Add(BankNumber.ToXElement(nameof(BankNumber)));
+            result.Add(Desc.ToXElement(nameof(Desc)));
+            result.Add(Balance.ToXElement(nameof(Balance)));
+            result.Add(TotalBalance.ToXElement(nameof(TotalBalance)));
+            result.Add(TaxLineInfoRet.ToXElement(nameof(TaxLineInfoRet)));
+            result.Add(CashFlowClassification.ToXElement(nameof(CashFlowClassification)));
+            result.Add(CurrencyRef.ToXElement(nameof(CurrencyRef)));
+            result.Add(DataExtRet.ToXElement(nameof(DataExtRet)));
+            return result;
         }
+
+        public override string ToString() => ToXElement().ToString();
+
+        public string ToString(string name) => ToXElement(name).ToString();
 
         public static Account Create(XElement ret)
         {
@@ -137,10 +172,7 @@ namespace QBSDK
             result.Parse(ret);
             return result;
         }
-    }
 
-    public static class AccountExtensions
-    {
-        public static Account AsAccount(this XElement ret) => Account.Create(ret);
+        public static implicit  operator Account(XElement ret) => Create(ret);
     }
 }

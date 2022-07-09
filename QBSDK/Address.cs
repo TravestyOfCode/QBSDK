@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace QBSDK
 {
@@ -14,14 +15,14 @@ namespace QBSDK
 
         public string Addr5 { get; set; }
 
-        public void Parse(XElement AddressBlockRet)
+        public void Parse(XElement ret)
         {
-            if (AddressBlockRet == null)
+            if (ret == null)
                 return;
 
-            foreach(var element in AddressBlockRet.Elements())
+            foreach (var element in ret.Elements())
             {
-                switch(element.Name.LocalName)
+                switch (element.Name.LocalName)
                 {
                     case nameof(Addr1): Addr1 = element.AsString(); break;
                     case nameof(Addr2): Addr2 = element.AsString(); break;
@@ -29,18 +30,35 @@ namespace QBSDK
                     case nameof(Addr4): Addr4 = element.AsString(); break;
                     case nameof(Addr5): Addr5 = element.AsString(); break;
                 }
-            }            
+            }
         }
 
-        public static AddressBlock Create(XElement AddressBlockRet)
+        public XElement ToXElement(string name = nameof(AddressBlock))
         {
-            if (AddressBlockRet == null) 
+            XElement result = new XElement(name);
+            result.Add(Addr1?.ToXElement(nameof(Addr1)));
+            result.Add(Addr2?.ToXElement(nameof(Addr2)));
+            result.Add(Addr3?.ToXElement(nameof(Addr3)));
+            result.Add(Addr4?.ToXElement(nameof(Addr4)));
+            result.Add(Addr5?.ToXElement(nameof(Addr5)));
+            return result;
+        }
+
+        public override string ToString() => ToXElement().ToString();
+
+        public string ToString(string name) => ToXElement(name).ToString();
+
+        public static AddressBlock Create(XElement ret)
+        {
+            if (ret == null)
                 return null;
 
             AddressBlock result = new AddressBlock();
-            result.Parse(AddressBlockRet);
+            result.Parse(ret);
             return result;
         }
+
+        public static implicit operator AddressBlock(XElement ret) => Create(ret);
     }
 
     public class Address : AddressBlock
@@ -55,12 +73,12 @@ namespace QBSDK
 
         public string Note { get; set; }
 
-        public new void Parse(XElement AddressRet)
+        public new void Parse(XElement ret)
         {
-            if (AddressRet == null)
+            if (ret == null)
                 return;
 
-            foreach (var element in AddressRet.Elements())
+            foreach (var element in ret.Elements())
             {
                 switch (element.Name.LocalName)
                 {
@@ -78,15 +96,37 @@ namespace QBSDK
             }
         }
 
-        public new static Address Create(XElement AddressRet)
+        public new XElement ToXElement(string name = nameof(Address))
         {
-            if (AddressRet == null)
+            XElement result = new XElement(name);
+            result.Add(Addr1?.ToXElement(nameof(Addr1)));
+            result.Add(Addr2?.ToXElement(nameof(Addr2)));
+            result.Add(Addr3?.ToXElement(nameof(Addr3)));
+            result.Add(Addr4?.ToXElement(nameof(Addr4)));
+            result.Add(Addr5?.ToXElement(nameof(Addr5)));
+            result.Add(City?.ToXElement(nameof(City)));
+            result.Add(State?.ToXElement(nameof(State)));
+            result.Add(PostalCode?.ToXElement(nameof(PostalCode)));
+            result.Add(Country?.ToXElement(nameof(Country)));
+            result.Add(Note?.ToXElement(nameof(Note)));
+            return result;
+        }
+
+        public new string ToString() => ToXElement().ToString();
+
+        public new string ToString(string name) => ToXElement(name).ToString();
+
+        public new static Address Create(XElement ret)
+        {
+            if (ret == null)
                 return null;
 
             Address result = new Address();
-            result.Parse(AddressRet);
+            result.Parse(ret);
             return result;
         }
+
+        public static implicit operator Address(XElement ret) => Create(ret);
     }
 
     public class ShipToAddress : Address
@@ -95,12 +135,12 @@ namespace QBSDK
 
         public bool DefaultShipTo { get; set; }
 
-        public new void Parse(XElement ShipToAddressRet)
+        public new void Parse(XElement ret)
         {
-            if (ShipToAddressRet == null)
+            if (ret == null)
                 return;
 
-            foreach (var element in ShipToAddressRet.Elements())
+            foreach (var element in ret.Elements())
             {
                 switch (element.Name.LocalName)
                 {
@@ -120,21 +160,54 @@ namespace QBSDK
             }
         }
 
-        public new static ShipToAddress Create(XElement ShipToAddressRet)
+        public new XElement ToXElement(string name = nameof(ShipToAddress))
         {
-            if (ShipToAddressRet == null)
+            XElement result = new XElement(name);
+            result.Add(Name?.ToXElement(nameof(Name)));
+            result.Add(Addr1?.ToXElement(nameof(Addr1)));
+            result.Add(Addr2?.ToXElement(nameof(Addr2)));
+            result.Add(Addr3?.ToXElement(nameof(Addr3)));
+            result.Add(Addr4?.ToXElement(nameof(Addr4)));
+            result.Add(Addr5?.ToXElement(nameof(Addr5)));
+            result.Add(City?.ToXElement(nameof(City)));
+            result.Add(State?.ToXElement(nameof(State)));
+            result.Add(PostalCode?.ToXElement(nameof(PostalCode)));
+            result.Add(Country?.ToXElement(nameof(Country)));
+            result.Add(Note?.ToXElement(nameof(Note)));
+            result.Add(DefaultShipTo.ToXElement(nameof(DefaultShipTo)));
+            return result;
+        }
+
+        public new string ToString() => ToXElement().ToString();
+
+        public new string ToString(string name) => ToXElement(name).ToString();
+
+        public new static ShipToAddress Create(XElement ret)
+        {
+            if (ret == null)
                 return null;
 
             ShipToAddress result = new ShipToAddress();
-            result.Parse(ShipToAddressRet);
+            result.Parse(ret);
             return result;
         }
+
+        public static implicit operator ShipToAddress(XElement ret) => Create(ret);
     }
 
     public static class AddressExtensions
     {
-        public static AddressBlock AsAddressBlock(this XElement element) => AddressBlock.Create(element);
-        public static Address AsAddress(this XElement element) => Address.Create(element);
-        public static ShipToAddress AsShipToAddress(this XElement element) => ShipToAddress.Create(element);
+        public static List<XElement> ToXElement(this List<ShipToAddress> values, string name = nameof(ShipToAddress))
+        {
+            if (values == null)
+                return null;
+
+            List<XElement> results = new List<XElement>();
+            foreach(var value in values)
+            {
+                results.Add(value.ToXElement(name));
+            }
+            return results;
+        }
     }
 }
