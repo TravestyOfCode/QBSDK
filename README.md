@@ -10,7 +10,7 @@ This project contains two libraries. QBSDK.Provider is an attempt to make a LINQ
 |BillingRate |No | No | No | No |
 |Class |No | No | No | No |
 |Currency |No | No | No | No |
-|Customer |No | No | No | No |
+|Customer |Yes | No | No | No |
 |CustomerType |No | No | No | No |
 |Employee |No | No | No | No |
 |Entity |No | No | No | No |
