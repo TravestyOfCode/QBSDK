@@ -173,12 +173,66 @@ namespace QBSDK
 
         public override XElement ToModRq(QBCountry qbCountry = QBCountry.US)
         {
-            throw new NotImplementedException();
+            XElement CustomerMod = new XElement(nameof(CustomerMod));
+            CustomerMod.Add(ListID?.ToXElement(nameof(ListID)));
+            CustomerMod.Add(EditSequence?.ToXElement(nameof(EditSequence)));
+            CustomerMod.Add(Name?.ToXElement(nameof(Name)));
+            CustomerMod.Add(IsActive?.ToXElement(nameof(IsActive)));
+            CustomerMod.Add(ClassRef?.ToXElement(nameof(ClassRef)));
+            CustomerMod.Add(ParentRef?.ToXElement(nameof(ParentRef)));
+            CustomerMod.Add(CompanyName?.ToXElement(nameof(CompanyName)));
+            CustomerMod.Add(Salutation?.ToXElement(nameof(Salutation)));
+            CustomerMod.Add(FirstName?.ToXElement(nameof(FirstName)));
+            CustomerMod.Add(MiddleName?.ToXElement(nameof(MiddleName)));
+            CustomerMod.Add(LastName?.ToXElement(nameof(LastName)));
+            CustomerMod.Add(JobTitle?.ToXElement(nameof(JobTitle)));
+            CustomerMod.Add(BillAddress?.ToXElement(nameof(BillAddress)));
+            CustomerMod.Add(ShipAddress?.ToXElement(nameof(ShipAddress)));
+            CustomerMod.Add(ShipToAddress?.ToXElement(nameof(ShipToAddress)));
+            CustomerMod.Add(Phone?.ToXElement(nameof(Phone)));
+            CustomerMod.Add(AltPhone?.ToXElement(nameof(AltPhone)));
+            CustomerMod.Add(Fax?.ToXElement(nameof(Fax)));
+            CustomerMod.Add(Email?.ToXElement(nameof(Email)));
+            CustomerMod.Add(Cc?.ToXElement(nameof(Cc)));
+            CustomerMod.Add(Contact?.ToXElement(nameof(Contact)));
+            CustomerMod.Add(AltContact?.ToXElement(nameof(AltContact)));
+            CustomerMod.Add(AdditionalContactRef?.ToXElement(nameof(AdditionalContactRef)));
+            CustomerMod.Add(ContactsRet?.ToXElement("ContactsMod"));
+            CustomerMod.Add(CustomerTypeRef?.ToXElement(nameof(CustomerTypeRef)));
+            CustomerMod.Add(TermsRef?.ToXElement(nameof(TermsRef)));
+            CustomerMod.Add(SalesRepRef?.ToXElement(nameof(SalesRepRef)));
+            CustomerMod.Add(SalesTaxCodeRef?.ToXElement(nameof(SalesTaxCodeRef)));
+            if(qbCountry.HasFlag(QBCountry.US))
+                CustomerMod.Add(ItemSalesTaxRef?.ToXElement(nameof(ItemSalesTaxRef)));
+            if(qbCountry.HasFlag(QBCountry.CA) || qbCountry.HasFlag(QBCountry.UK))
+                CustomerMod.Add(SalesTaxCountry?.ToXElement(nameof(SalesTaxCountry)));
+            CustomerMod.Add(ResaleNumber?.ToXElement(nameof(ResaleNumber)));
+            CustomerMod.Add(AccountNumber?.ToXElement(nameof(AccountNumber)));
+            CustomerMod.Add(CreditLimit?.ToXElement(nameof(CreditLimit)));
+            CustomerMod.Add(PreferredPaymentMethodRef?.ToXElement(nameof(PreferredPaymentMethodRef)));
+            CustomerMod.Add(CreditCardInfo?.ToXElement(nameof(CreditCardInfo)));
+            CustomerMod.Add(JobStatus?.ToXElement(nameof(JobStatus)));
+            CustomerMod.Add(JobStartDate?.ToXElement(nameof(JobStartDate)));
+            CustomerMod.Add(JobProjectedEndDate?.ToXElement(nameof(JobProjectedEndDate)));
+            CustomerMod.Add(JobEndDate?.ToXElement(nameof(JobEndDate)));
+            CustomerMod.Add(JobDesc?.ToXElement(nameof(JobDesc)));
+            CustomerMod.Add(JobTypeRef?.ToXElement(nameof(JobTypeRef)));
+            CustomerMod.Add(Notes?.ToXElement(nameof(Notes)));
+            CustomerMod.Add(AdditionalNotesRet?.ToXElement("AdditionalNotesMod"));
+            CustomerMod.Add(PreferredDeliveryMethod?.ToXElement(nameof(PreferredDeliveryMethod)));
+            CustomerMod.Add(PriceLevelRef?.ToXElement(nameof(PriceLevelRef)));
+            if(qbCountry.HasFlag(QBCountry.CA) || qbCountry.HasFlag(QBCountry.UK))
+                CustomerMod.Add(TaxRegistrationNumber?.ToXElement(nameof(TaxRegistrationNumber)));
+            CustomerMod.Add(CurrencyRef?.ToXElement(nameof(CurrencyRef)));
+            return CustomerMod;
         }
 
         public override XElement ToDelRq(QBCountry qbCountry = QBCountry.US)
         {
-            throw new NotImplementedException();
+            XElement ListDelRq = new XElement(nameof(ListDelRq));
+            ListDelRq.Add(ListDelType.ToXElement(nameof(ListDelType)));
+            ListDelRq.Add(ListID?.ToXElement(nameof(ListID)));
+            return ListDelRq;
         }
 
         public new void Parse(XElement ret)
