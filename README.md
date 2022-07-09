@@ -6,11 +6,11 @@ This project contains two libraries. QBSDK.Provider is an attempt to make a LINQ
 ## Lists
 | Object | QueryRq | AddRq | ModRq | DelRq |
 | -------|:-------:|:-----:|:-----:|:-----:|
-| Account| Yes     | No    | No    | No    |
+| Account| Yes     | Yes    | Yes    | Yes    |
 |BillingRate |No | No | No | No |
 |Class |No | No | No | No |
 |Currency |No | No | No | No |
-|Customer |Yes | No | No | No |
+|Customer |Yes | Yes | Yes | Yes |
 |CustomerType |No | No | No | No |
 |Employee |No | No | No | No |
 |Entity |No | No | No | No |
