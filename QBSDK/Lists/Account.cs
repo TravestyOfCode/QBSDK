@@ -127,5 +127,20 @@ namespace QBSDK
         {
             return AccountNumber == null ? FullName : $"{AccountNumber} - {FullName}";
         }
+
+        public static Account Create(XElement ret)
+        {
+            if (ret == null)
+                return null;
+
+            Account result = new Account();
+            result.Parse(ret);
+            return result;
+        }
+    }
+
+    public static class AccountExtensions
+    {
+        public static Account AsAccount(this XElement ret) => Account.Create(ret);
     }
 }
