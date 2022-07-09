@@ -15,8 +15,6 @@ namespace QBSDK
         public string iteratorID { get; internal set; }
 #pragma warning restore IDE1006 // Naming Styles
 
-        protected string QueryType = $"{typeof(T).Name}QueryRq";
-
         public void StopQuery()
         {
             if(iterator != null)

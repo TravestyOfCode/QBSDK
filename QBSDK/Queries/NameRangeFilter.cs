@@ -8,6 +8,16 @@ namespace QBSDK
 
         public string ToName { get; set; }
 
+        public NameRangeFilter()
+        {
+
+        }
+        public NameRangeFilter(string fromName, string toName)
+        {
+            FromName = fromName;
+            ToName = toName;
+        }
+
         public XElement ToXElement(string name = nameof(NameRangeFilter))
         {
             XElement results = new XElement(name);

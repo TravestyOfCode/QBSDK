@@ -12,34 +12,30 @@ namespace QBSDK
         public BaseRefFilter CurrencyFilter { get; set; }
 
         public override XElement ToQueryRq(QBCountry qbCountry = QBCountry.US)
-        {
-            XElement QBXMLMsgsRq = new XElement(nameof(QBXMLMsgsRq));
+        { 
+            XElement AccountQueryRq = new XElement(nameof(AccountQueryRq));
 
-            XElement QueryRq = new XElement(QueryType);
+            AccountQueryRq.Add(metaData?.ToXAttribute(nameof(metaData)));
 
-            QueryRq.Add(metaData.ToXAttribute(nameof(metaData)));
+            AccountQueryRq.Add(ActiveStatus?.ToXElement(nameof(ActiveStatus)));
 
-            QueryRq.Add(ActiveStatus.ToXElement(nameof(ActiveStatus)));
+            AccountQueryRq.Add(FromModifiedDate?.ToXElement(nameof(FromModifiedDate)));
 
-            QueryRq.Add(FromModifiedDate.ToXElement(nameof(FromModifiedDate)));
+            AccountQueryRq.Add(ToModifiedDate?.ToXElement(nameof(ToModifiedDate)));
 
-            QueryRq.Add(ToModifiedDate.ToXElement(nameof(ToModifiedDate)));
+            AccountQueryRq.Add(NameFilter?.ToXElement(nameof(NameFilter)));
 
-            QueryRq.Add(NameFilter.ToXElement(nameof(NameFilter)));
+            AccountQueryRq.Add(NameRangeFilter?.ToXElement(nameof(NameRangeFilter)));
 
-            QueryRq.Add(NameRangeFilter.ToXElement(nameof(NameRangeFilter)));
+            AccountQueryRq.Add(AccountType?.ToXElementList(nameof(AccountType)));
 
-            QueryRq.Add(AccountType.ToXElementList(nameof(AccountType)));
+            AccountQueryRq.Add(CurrencyFilter?.ToXElement(nameof(CurrencyFilter)));
 
-            QueryRq.Add(CurrencyFilter.ToXElement(nameof(CurrencyFilter)));
+            IncludeRetElementList?.ForEach(IncludeRetElement => AccountQueryRq.Add(IncludeRetElement.ToXElement(nameof(IncludeRetElement))));
 
-            IncludeRetElementList?.ForEach(IncludeRetElement => QueryRq.Add(IncludeRetElement.ToXElement(nameof(IncludeRetElement))));
+            OwnerIDList?.ForEach(OwnerID => AccountQueryRq.Add(OwnerID.ToXElement(nameof(OwnerID))));
 
-            OwnerIDList?.ForEach(OwnerID => QueryRq.Add(OwnerID.ToXElement(nameof(OwnerID))));
-
-            QBXMLMsgsRq.Add(QueryRq);
-
-            return QBXMLMsgsRq;
+            return AccountQueryRq;
         }
 
     }
@@ -54,6 +50,19 @@ namespace QBSDK
         {
 
         }
+
+        public override XElement ToQueryRq(QBCountry qbCountry = QBCountry.US)
+        {
+            XElement AccountQueryRq = new XElement(nameof(AccountQueryRq));
+
+            ListIDList?.ForEach(ListID => AccountQueryRq.Add(ListID.ToXElement(nameof(ListID))));
+
+            IncludeRetElementList?.ForEach(IncludeRetElement => AccountQueryRq.Add(IncludeRetElement.ToXElement(nameof(IncludeRetElement))));
+
+            OwnerIDList?.ForEach(OwnerID => AccountQueryRq.Add(OwnerID.ToXElement(nameof(OwnerID))));
+
+            return AccountQueryRq;
+        }
     }
 
     public class AccountFullNameQuery : FullNameQuery<Account>
@@ -66,6 +75,19 @@ namespace QBSDK
         public AccountFullNameQuery(params string[] fullNames) : base(fullNames)
         {
 
+        }
+
+        public override XElement ToQueryRq(QBCountry qbCountry)
+        {
+            XElement AccountQueryRq = new XElement(nameof(AccountQueryRq));
+
+            FullNameList?.ForEach(FullName => AccountQueryRq.Add(FullName.ToXElement(nameof(FullName))));
+
+            IncludeRetElementList?.ForEach(IncludeRetElement => AccountQueryRq.Add(IncludeRetElement.ToXElement(nameof(IncludeRetElement))));
+
+            OwnerIDList?.ForEach(OwnerID => AccountQueryRq.Add(OwnerID.ToXElement(nameof(OwnerID))));
+
+            return AccountQueryRq;
         }
     }
 }

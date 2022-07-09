@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace QBSDK
 {
-    public class ListIDQuery<T> : QBQuery<T>
+    public abstract class ListIDQuery<T> : QBQuery<T>
     {
         public List<string> ListIDList { get; set; }
 
@@ -26,24 +26,22 @@ namespace QBSDK
             }
         }
 
-        public override XElement ToQueryRq(QBCountry qbCountry = QBCountry.US)
-        {
-            XElement QBXMLMsgsRq = new XElement(nameof(QBXMLMsgsRq));
+        //public override XElement ToQueryRq(QBCountry qbCountry = QBCountry.US)
+        //{
+        //    XElement QBXMLMsgsRq = new XElement(nameof(QBXMLMsgsRq));
             
-            XElement QueryRq = new XElement(QueryType);
+        //    XElement QueryRq = new XElement(QueryType);
 
-            ListIDList?.ForEach(ListID => QueryRq.Add(ListID.ToXElement(nameof(ListID))));
+        //    ListIDList?.ForEach(ListID => QueryRq.Add(ListID.ToXElement(nameof(ListID))));
 
-            IncludeRetElementList?.ForEach(IncludeRetElement => QueryRq.Add(IncludeRetElement.ToXElement(nameof(IncludeRetElement))));
+        //    IncludeRetElementList?.ForEach(IncludeRetElement => QueryRq.Add(IncludeRetElement.ToXElement(nameof(IncludeRetElement))));
 
-            OwnerIDList?.ForEach(OwnerID => QueryRq.Add(OwnerID.ToXElement(nameof(OwnerID))));
+        //    OwnerIDList?.ForEach(OwnerID => QueryRq.Add(OwnerID.ToXElement(nameof(OwnerID))));
 
-            QBXMLMsgsRq.Add(QueryRq);
+        //    QBXMLMsgsRq.Add(QueryRq);
             
-            return QBXMLMsgsRq;
-        }
-
-        public override string ToString() => ToQueryRq().ToString();
+        //    return QBXMLMsgsRq;
+        //}
         
     }
 }

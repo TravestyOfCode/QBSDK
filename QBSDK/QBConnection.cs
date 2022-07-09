@@ -68,7 +68,7 @@ namespace QBSDK
             if (statusCode == "1") // A query request did not find any matching entities
                 return new List<T>();
 
-            if (statusCode != "0")
+            if (statusCode != "0" && statusCode != "500") // 500 is warning that not everything could be found
                 throw new QueryException(statusCode, statusMessage);
 
             // Set the iterator if we have one

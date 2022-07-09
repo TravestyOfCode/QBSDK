@@ -48,9 +48,7 @@ namespace QBSDK
 
         public override XElement ToQueryRq(QBCountry qbCountry = QBCountry.US)
         {
-            XElement QBXMLMsgsRq = new XElement(nameof(QBXMLMsgsRq));
-
-            XElement QueryRq = new XElement(QueryType);
+            XElement QueryRq = new XElement($"{typeof(T).Name}QueryRq");
 
             QueryRq.Add(metaData.ToXAttribute(nameof(metaData)));
 
@@ -68,9 +66,7 @@ namespace QBSDK
 
             OwnerIDList?.ForEach(OwnerID => QueryRq.Add(OwnerID.ToXElement(nameof(OwnerID))));
 
-            QBXMLMsgsRq.Add(QueryRq);
-
-            return QBXMLMsgsRq;
+            return QueryRq;
         }
     }
 }

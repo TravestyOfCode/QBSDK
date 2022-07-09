@@ -51,6 +51,8 @@ namespace QBSDK
                 {
                     case nameof(ListID): ListID = element.AsString(); break;
                     case nameof(EditSequence): EditSequence = element.AsString(); break;
+                    case nameof(TimeCreated): TimeCreated = element.AsDateTime(); break;
+                    case nameof(TimeModified): TimeModified = element.AsDateTime(); break;
                     case nameof(Name): Name = element.AsString(); break;
                     case nameof(IsActive): IsActive = element.AsBool(); break;
                     case nameof(ParentRef): ParentRef = element; break;

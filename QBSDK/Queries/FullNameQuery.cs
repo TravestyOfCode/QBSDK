@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace QBSDK
 {
-    public class FullNameQuery<T> : QBQuery<T>
+    public abstract class FullNameQuery<T> : QBQuery<T>
     {
         public List<string> FullNameList { get; set; }
 
@@ -26,24 +26,17 @@ namespace QBSDK
             }
         }
 
-        public override XElement ToQueryRq(QBCountry qbCountry = QBCountry.US)
-        {
-            XElement QBXMLMsgsRq = new XElement(nameof(QBXMLMsgsRq));
+        //public override XElement ToQueryRq(QBCountry qbCountry = QBCountry.US)
+        //{
+        //    XElement QueryRq = new XElement(nameof(QueryRq);
 
-            XElement QueryRq = new XElement(QueryType);
+        //    FullNameList?.ForEach(FullName => QueryRq.Add(FullName.ToXElement(nameof(FullName))));
 
-            FullNameList?.ForEach(FullName => QueryRq.Add(FullName.ToXElement(nameof(FullName))));
+        //    IncludeRetElementList?.ForEach(IncludeRetElement => QueryRq.Add(IncludeRetElement.ToXElement(nameof(IncludeRetElement))));
 
-            IncludeRetElementList?.ForEach(IncludeRetElement => QueryRq.Add(IncludeRetElement.ToXElement(nameof(IncludeRetElement))));
+        //    OwnerIDList?.ForEach(OwnerID => QueryRq.Add(OwnerID.ToXElement(nameof(OwnerID))));
 
-            OwnerIDList?.ForEach(OwnerID => QueryRq.Add(OwnerID.ToXElement(nameof(OwnerID))));
-
-            QBXMLMsgsRq.Add(QueryRq);
-
-            return QBXMLMsgsRq;
-        }
-
-        public override string ToString() => ToQueryRq().ToString();
-
+        //    return QueryRq;
+        //}
     }
 }

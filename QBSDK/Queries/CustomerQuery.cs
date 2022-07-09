@@ -13,55 +13,91 @@ namespace QBSDK
         public BaseRefChildrenFilter ClassFilter { get; set; }
 
         public override XElement ToQueryRq(QBCountry qbCountry = QBCountry.US)
-        {
-            XElement QBXMLMsgsRq = new XElement(nameof(QBXMLMsgsRq));
+        { 
+            XElement CustomerQueryRq = new XElement(nameof(CustomerQueryRq));
 
-            XElement QueryRq = new XElement(QueryType);
-
-            QueryRq.Add(metaData.ToXAttribute(nameof(metaData)));
+            CustomerQueryRq.Add(metaData.ToXAttribute(nameof(metaData)));
             
             if(MaxReturned != null)
             {
                 iterator ??= Iterator.Start;
                 
-                QueryRq.Add(iterator.ToXAttribute(nameof(iterator)));
-                QueryRq.Add(iteratorID.ToXAttribute(nameof(iteratorID)));
-                QueryRq.Add(MaxReturned.ToXElement(nameof(MaxReturned)));
+                CustomerQueryRq.Add(iterator?.ToXAttribute(nameof(iterator)));
+                CustomerQueryRq.Add(iteratorID?.ToXAttribute(nameof(iteratorID)));
+                CustomerQueryRq.Add(MaxReturned?.ToXElement(nameof(MaxReturned)));
             }
 
-            QueryRq.Add(ActiveStatus.ToXElement(nameof(ActiveStatus)));
+            CustomerQueryRq.Add(ActiveStatus?.ToXElement(nameof(ActiveStatus)));
 
-            QueryRq.Add(FromModifiedDate.ToXElement(nameof(FromModifiedDate)));
+            CustomerQueryRq.Add(FromModifiedDate?.ToXElement(nameof(FromModifiedDate)));
 
-            QueryRq.Add(ToModifiedDate.ToXElement(nameof(ToModifiedDate)));
+            CustomerQueryRq.Add(ToModifiedDate?.ToXElement(nameof(ToModifiedDate)));
 
-            QueryRq.Add(NameFilter.ToXElement(nameof(NameFilter)));
+            CustomerQueryRq.Add(NameFilter?.ToXElement(nameof(NameFilter)));
 
-            QueryRq.Add(NameRangeFilter.ToXElement(nameof(NameRangeFilter)));
+            CustomerQueryRq.Add(NameRangeFilter?.ToXElement(nameof(NameRangeFilter)));
 
-            QueryRq.Add(TotalBalance.ToXElement(nameof(TotalBalanceFilter)));
+            CustomerQueryRq.Add(TotalBalance?.ToXElement(nameof(TotalBalanceFilter)));
 
-            QueryRq.Add(CurrencyFilter.ToXElement(nameof(CurrencyFilter)));
+            CustomerQueryRq.Add(CurrencyFilter?.ToXElement(nameof(CurrencyFilter)));
 
-            QueryRq.Add(ClassFilter.ToXElement(nameof(ClassFilter)));
+            CustomerQueryRq.Add(ClassFilter?.ToXElement(nameof(ClassFilter)));
 
-            IncludeRetElementList?.ForEach(IncludeRetElement => QueryRq.Add(IncludeRetElement.ToXElement(nameof(IncludeRetElement))));
+            IncludeRetElementList?.ForEach(IncludeRetElement => CustomerQueryRq.Add(IncludeRetElement.ToXElement(nameof(IncludeRetElement))));
 
-            OwnerIDList?.ForEach(OwnerID => QueryRq.Add(OwnerID.ToXElement(nameof(OwnerID))));
+            OwnerIDList?.ForEach(OwnerID => CustomerQueryRq.Add(OwnerID.ToXElement(nameof(OwnerID))));
 
-            QBXMLMsgsRq.Add(QueryRq);
-
-            return QBXMLMsgsRq;
+            return CustomerQueryRq;
         }
     }
 
     public class CustomerListIDQuery : ListIDQuery<Customer>
     {
+        public CustomerListIDQuery() : base()
+        {
 
+        }
+        public CustomerListIDQuery(params string[] listIDs) : base(listIDs)
+        {
+
+        }
+
+        public override XElement ToQueryRq(QBCountry qbCountry)
+        {
+            XElement CustomerQueryRq = new XElement(nameof(CustomerQueryRq));
+
+            ListIDList?.ForEach(ListID => CustomerQueryRq.Add(ListID.ToXElement(nameof(ListID))));
+
+            IncludeRetElementList?.ForEach(IncludeRetElement => CustomerQueryRq.Add(IncludeRetElement.ToXElement(nameof(IncludeRetElement))));
+
+            OwnerIDList?.ForEach(OwnerID => CustomerQueryRq.Add(OwnerID.ToXElement(nameof(OwnerID))));
+
+            return CustomerQueryRq;
+        }
     }
 
     public class CustomerFullNameQuery : FullNameQuery<Customer>
     {
+        public CustomerFullNameQuery(): base()
+        {
 
+        }
+        public CustomerFullNameQuery(params string[] fullNames) : base(fullNames)
+        {
+
+        }
+
+        public override XElement ToQueryRq(QBCountry qbCountry)
+        {
+            XElement CustomerQueryRq = new XElement(nameof(CustomerQueryRq));
+
+            FullNameList?.ForEach(FullName => CustomerQueryRq.Add(FullName.ToXElement(nameof(FullName))));
+
+            IncludeRetElementList?.ForEach(IncludeRetElement => CustomerQueryRq.Add(IncludeRetElement.ToXElement(nameof(IncludeRetElement))));
+
+            OwnerIDList?.ForEach(OwnerID => CustomerQueryRq.Add(OwnerID.ToXElement(nameof(OwnerID))));
+
+            return CustomerQueryRq;
+        }
     }
 }
