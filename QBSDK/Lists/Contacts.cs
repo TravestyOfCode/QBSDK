@@ -58,7 +58,28 @@ namespace QBSDK
                 }
             }
         }
-    
+
+        public XElement ToXElement(string name = nameof(Contacts))
+        {
+            XElement result = new XElement(name);
+            result.Add(ListID.ToXElement(nameof(ListID)));
+            result.Add(TimeCreated.ToXElement(nameof(TimeCreated)));
+            result.Add(TimeModified.ToXElement(nameof(TimeModified)));
+            result.Add(EditSequence.ToXElement(nameof(EditSequence)));
+            result.Add(Contact.ToXElement(nameof(Contact)));
+            result.Add(Salutation.ToXElement(nameof(Salutation)));
+            result.Add(FirstName.ToXElement(nameof(FirstName)));
+            result.Add(MiddleName.ToXElement(nameof(MiddleName)));
+            result.Add(LastName.ToXElement(nameof(LastName)));
+            result.Add(JobTitle.ToXElement(nameof(JobTitle)));
+            result.Add(AdditionalContactRef.ToXElement(nameof(AdditionalContactRef)));
+            return result;
+        }
+
+        public override string ToString() => ToXElement().ToString();
+
+        public string ToString(string name) => ToXElement(name).ToString();
+
         public static Contacts Create(XElement ret)
         {
             if (ret == null)
@@ -68,11 +89,23 @@ namespace QBSDK
             result.Parse(ret);
             return result;
         }
+
+        public static implicit operator Contacts(XElement ret) => Create(ret);
     }
 
     public static class ContactsExtensions
     {
-        public static Contacts AsContacts(this XElement ret) => Contacts.Create(ret);
-        
+        public static List<XElement> ToXElement(this List<Contacts> values, string name = nameof(Contacts))
+        {
+            if (values == null)
+                return null;
+
+            List<XElement> results = new List<XElement>();
+            foreach (var value in values)
+            {
+                results.Add(value.ToXElement(name));
+            }
+            return results;
+        }
     }
 }

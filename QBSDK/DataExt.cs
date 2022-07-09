@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace QBSDK
 {
@@ -26,6 +27,19 @@ namespace QBSDK
             }
         }
 
+        public XElement ToXElement(string name = nameof(DataExt))
+        {
+            XElement result = new XElement(name);
+            result.Add(OwnerID?.ToXElement(nameof(OwnerID)));
+            result.Add(DataExtName?.ToXElement(nameof(DataExtName)));
+            result.Add(DataExtValue?.ToXElement(nameof(DataExtValue)));
+            return result;
+        }
+
+        public override string ToString() => ToString(null);
+
+        public string ToString(string name) => ToXElement(name).ToString();
+
         public static DataExt Create(XElement element)
         {
             if (element == null)
@@ -35,10 +49,23 @@ namespace QBSDK
             result.Parse(element);
             return result;
         }
+
+        public static implicit operator DataExt(XElement ret) => Create(ret);
     }
 
     public static class DataExtExtensions
     {
-        public static DataExt AsDataExt(this XElement element) => DataExt.Create(element);
+        public static List<XElement> ToXElement(this List<DataExt> values, string name = nameof(DataExt))
+        {
+            if (values == null)
+                return null;
+
+            List<XElement> results = new List<XElement>();
+            foreach(var value in values)
+            {
+                results.Add(value.ToXElement(name));
+            }
+            return results;
+        }
     }
 }

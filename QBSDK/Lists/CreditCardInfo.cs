@@ -30,6 +30,22 @@ namespace QBSDK
             }
         }
 
+        public XElement ToXElement(string name = nameof(CreditCardInfo))
+        {
+            XElement result = new XElement(name);
+            result.Add(CreditCardNumber.ToXElement(nameof(CreditCardNumber)));
+            result.Add(ExpirationMonth.ToXElement(nameof(ExpirationMonth)));
+            result.Add(ExpirationYear.ToXElement(nameof(ExpirationYear)));
+            result.Add(NameOnCard.ToXElement(nameof(NameOnCard)));
+            result.Add(CreditCardAddress.ToXElement(nameof(CreditCardAddress)));
+            result.Add(CreditCardPostalCode.ToXElement(nameof(CreditCardPostalCode)));
+            return result;
+        }
+
+        public override string ToString() => ToXElement().ToString();
+
+        public string ToString(string name) => ToXElement(name).ToString();
+
         public static CreditCardInfo Create(XElement ret)
         {
             if (ret == null)
@@ -39,10 +55,7 @@ namespace QBSDK
             result.Parse(ret);
             return result;
         }
-    }
 
-    public static class CreditCardInfoExtensions
-    {
-        public static CreditCardInfo AsCreditCardInfo(this XElement ret) => CreditCardInfo.Create(ret);
+        public static implicit operator CreditCardInfo(XElement ret) => Create(ret);
     }
 }

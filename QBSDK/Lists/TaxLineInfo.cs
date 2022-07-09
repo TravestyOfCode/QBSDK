@@ -24,6 +24,10 @@ namespace QBSDK
             }
         }
 
+        public XElement ToXElement(string name = nameof(TaxLineID)) => new XElement(name, TaxLineID);
+
+        public override string ToString() => ToXElement().ToString();
+
         public static TaxLineInfo Create(XElement ret)
         {
             if (ret == null)
@@ -33,10 +37,7 @@ namespace QBSDK
             result.Parse(ret);
             return result;
         }
-    }
 
-    public static class TaxLineInfoExtensions
-    {
-        public static TaxLineInfo AxTaxLineInfo(this XElement ret) => TaxLineInfo.Create(ret);
+        public static implicit operator TaxLineInfo(XElement ret) => Create(ret);        
     }
 }
