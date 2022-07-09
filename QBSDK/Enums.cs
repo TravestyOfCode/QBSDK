@@ -11,5 +11,6 @@
     public enum JobStatus { None, Awarded, Closed, InProgress, NotAwarded, Pending }
     public enum PreferredDeliveryMethod { None, Email, Fax }
     public enum Operator { LessThan, LessThanEqual, Equal, GreaterThan, GreaterThanEqual }
+    public enum SalesTaxCountry { Canada, Australia, UK, US }
 
 }

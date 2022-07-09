@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 namespace QBSDK
 {
-    public class AdditionalNote
+    public class AdditionalNotes
     {
         public int? NoteID { get; private set; }
 
@@ -28,7 +28,7 @@ namespace QBSDK
             }
         }
 
-        public XElement ToXElement(string name = nameof(AdditionalNote))
+        public XElement ToXElement(string name = nameof(AdditionalNotes))
         {
             XElement result = new XElement(name);
             result.Add(NoteID.ToXElement(nameof(NoteID)));
@@ -41,22 +41,22 @@ namespace QBSDK
 
         public string ToString(string name) => ToXElement(name).ToString();        
 
-        public static AdditionalNote Create(XElement ret)
+        public static AdditionalNotes Create(XElement ret)
         {
             if (ret == null)
                 return null;
 
-            AdditionalNote result = new AdditionalNote();
+            AdditionalNotes result = new AdditionalNotes();
             result.Parse(ret);
             return result;
         }
 
-        public static implicit operator AdditionalNote(XElement ret) => Create(ret);
+        public static implicit operator AdditionalNotes(XElement ret) => Create(ret);
     }
 
     public static class AdditionalNoteExtensions
     {
-        public static List<XElement> ToXElement(this List<AdditionalNote> values, string name = nameof(AdditionalNote))
+        public static List<XElement> ToXElement(this List<AdditionalNotes> values, string name = nameof(AdditionalNotes))
         {
             if (values == null)
                 return null;

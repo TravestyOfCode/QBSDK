@@ -49,55 +49,74 @@ namespace QBSDK
         public override XElement ToAddRq(QBVersionInfo versionInfo = null)
         {
             versionInfo ??= new QBVersionInfo();
-
-            XElement AccountAddRq = base.ToAddRq(versionInfo);
-
-            AccountAddRq.Name = nameof(AccountAddRq);
-            AccountAddRq.Add(AccountType?.ToXElement(nameof(AccountType)));
-            AccountAddRq.Add(AccountNumber?.ToXElement(nameof(AccountNumber)));
-            AccountAddRq.Add(BankNumber?.ToXElement(nameof(BankNumber)));
-            AccountAddRq.Add(Desc?.ToXElement(nameof(Desc)));
-            AccountAddRq.Add(OpenBalance?.ToXElement(nameof(OpenBalance)));
-            AccountAddRq.Add(OpenBalanceDate?.ToXElement(nameof(OpenBalanceDate)));
+            
+            XElement AccountAdd = new XElement(nameof(AccountAdd));
+            AccountAdd.Add(Name?.ToXElement(nameof(Name)));
+            AccountAdd.Add(IsActive?.ToXElement(nameof(IsActive)));
+            AccountAdd.Add(ParentRef?.ToXElement(nameof(ParentRef)));
+            AccountAdd.Add(AccountType?.ToXElement(nameof(AccountType)));
+            AccountAdd.Add(AccountNumber?.ToXElement(nameof(AccountNumber)));
+            AccountAdd.Add(BankNumber?.ToXElement(nameof(BankNumber)));
+            AccountAdd.Add(Desc?.ToXElement(nameof(Desc)));
+            AccountAdd.Add(OpenBalance?.ToXElement(nameof(OpenBalance)));
+            AccountAdd.Add(OpenBalanceDate?.ToXElement(nameof(OpenBalanceDate)));            
             if (versionInfo.Version.Major >= 6 && (versionInfo.CountryCode == "CA" || versionInfo.CountryCode == "UK"))
-                AccountAddRq.Add(SalesTaxCodeRef?.ToXElement(nameof(SalesTaxCodeRef)));
+                AccountAdd.Add(SalesTaxCodeRef?.ToXElement(nameof(SalesTaxCodeRef)));
             if (versionInfo.Version.Major >= 7 && (versionInfo.CountryCode == "US" || versionInfo.CountryCode == "CA"))
-                AccountAddRq.Add(TaxLineInfo?.ToXElement(nameof(TaxLineInfo)));
+                AccountAdd.Add(TaxLineInfo?.ToXElement(nameof(TaxLineInfo)));
             if (versionInfo.Version.Major >= 8)
-                AccountAddRq.Add(CurrencyRef?.ToXElement(nameof(CurrencyRef)));
+                AccountAdd.Add(CurrencyRef?.ToXElement(nameof(CurrencyRef)));
 
-            return AccountAddRq;
+            //XElement AccountAddRq = new XElement(nameof(AccountAddRq));
+            //AccountAddRq.Add(AccountAdd);
+            //if (versionInfo.Version.Major >= 4)
+            //    AccountAddRq.Add(IncludeRetElement?.ToXElementList(nameof(IncludeRetElement)));
+            
+            return AccountAdd;
         }
 
         public override XElement ToModRq(QBVersionInfo versionInfo = null)
         {
             versionInfo ??= new QBVersionInfo();
+            if (versionInfo.Version.Major < 6)
+                return null;
 
-            XElement AccountModRq = base.ToModRq(versionInfo);
-
-            AccountModRq.Name = nameof(AccountModRq);
-            AccountModRq.Add(AccountType?.ToXElement(nameof(AccountType)));
-            AccountModRq.Add(AccountNumber?.ToXElement(nameof(AccountNumber)));
-            AccountModRq.Add(BankNumber?.ToXElement(nameof(BankNumber)));
-            AccountModRq.Add(Desc?.ToXElement(nameof(Desc)));
+            XElement AccountMod = new XElement(nameof(AccountMod));
+            AccountMod.Add(ListID?.ToXElement(nameof(ListID)));
+            AccountMod.Add(EditSequence?.ToXElement(nameof(EditSequence)));
+            AccountMod.Add(Name?.ToXElement(nameof(Name)));
+            AccountMod.Add(IsActive?.ToXElement(nameof(IsActive)));
+            AccountMod.Add(ParentRef?.ToXElement(nameof(ParentRef)));
+            AccountMod.Add(AccountType?.ToXElement(nameof(AccountType)));
+            AccountMod.Add(AccountNumber?.ToXElement(nameof(AccountNumber)));
+            AccountMod.Add(BankNumber?.ToXElement(nameof(BankNumber)));
+            AccountMod.Add(Desc?.ToXElement(nameof(Desc)));
+            AccountMod.Add(OpenBalance?.ToXElement(nameof(OpenBalance)));
+            AccountMod.Add(OpenBalanceDate?.ToXElement(nameof(OpenBalanceDate)));            
             if (versionInfo.Version.Major >= 6 && (versionInfo.CountryCode == "CA" || versionInfo.CountryCode == "UK"))
-                AccountModRq.Add(SalesTaxCodeRef?.ToXElement(nameof(SalesTaxCodeRef)));
+                AccountMod.Add(SalesTaxCodeRef?.ToXElement(nameof(SalesTaxCodeRef)));
             if (versionInfo.Version.Major >= 7 && (versionInfo.CountryCode == "US" || versionInfo.CountryCode == "CA"))
-                AccountModRq.Add(TaxLineInfo?.ToXElement(nameof(TaxLineInfo)));
+                AccountMod.Add(TaxLineInfo?.ToXElement(nameof(TaxLineInfo)));
             if (versionInfo.Version.Major >= 8)
-                AccountModRq.Add(CurrencyRef?.ToXElement(nameof(CurrencyRef)));
+                AccountMod.Add(CurrencyRef?.ToXElement(nameof(CurrencyRef)));
 
-            return AccountModRq;
+            //XElement AccountModRq = new XElement(nameof(AccountModRq));
+            //AccountModRq.Add(AccountMod);
+            //if (versionInfo.Version.Minor >= 4)
+            //    AccountModRq.Add(IncludeRetElement?.ToXElementList(nameof(IncludeRetElement)));
+
+            return AccountMod;
         }
 
         public override XElement ToDelRq(QBVersionInfo versionInfo = null)
         {
-            versionInfo ??= new QBVersionInfo();
+            versionInfo ??= new QBVersionInfo();            
+            if (versionInfo.Version < new Version(1,1))
+                return null;
 
-            XElement ListDelRq = base.ToDelRq(versionInfo);
-            ListDelRq.Name = nameof(ListDelRq);
-            ListDelRq.AddFirst(ListDelType.ToXElement(nameof(ListDelType)));
-
+            XElement ListDelRq = new XElement(nameof(ListDelRq));
+            ListDelRq.Add(ListDelType.ToXElement(nameof(ListDelType)));
+            ListDelRq.Add(ListID?.ToXElement(nameof(ListID)));
             return ListDelRq;
         }
 

@@ -43,37 +43,6 @@ namespace QBSDK
 
         public int Sublevel => FullName.Count(c => c == ':');
 
-        public override XElement ToAddRq(QBVersionInfo versionInfo = null)
-        {
-            XElement AddRq = new XElement(nameof(AddRq));
-
-            AddRq.Add(ListID?.ToXElement(nameof(ListID)));
-            AddRq.Add(Name?.ToXElement(nameof(Name)));
-            AddRq.Add(IsActive?.ToXElement(nameof(IsActive)));
-            AddRq.Add(ParentRef?.ToXElement(nameof(ParentRef)));
-
-            return AddRq;
-        }
-
-        public override XElement ToModRq(QBVersionInfo versionInfo = null)
-        {
-            XElement ModRq = new XElement(nameof(ModRq));
-
-            ModRq.Add(ListID?.ToXElement(nameof(ListID)));
-            ModRq.Add(Name?.ToXElement(nameof(Name)));
-            ModRq.Add(IsActive?.ToXElement(nameof(IsActive)));
-            ModRq.Add(ParentRef?.ToXElement(nameof(ParentRef)));
-
-            return ModRq;
-        }
-
-        public override XElement ToDelRq(QBVersionInfo versionInfo = null)
-        {
-            XElement ListDelRq = new XElement(nameof(ListDelRq));
-            ListDelRq.Add(ListID?.ToXElement(nameof(ListID)));
-            return ListDelRq;
-        }
-
         public override void Parse(XElement ret)
         {
             foreach (var element in ret.Elements())
