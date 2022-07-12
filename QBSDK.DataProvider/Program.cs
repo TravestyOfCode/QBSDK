@@ -15,13 +15,13 @@ namespace QBSDK.DataProvider
         static void Main()
         {
 
-            QBConnection conn = new QBConnection();
+            //QBConnection conn = new QBConnection();
 
-            var query = conn.Accounts.Where(a => a.Name == "A" && a.Desc.Contains("1"));
+            //var query = conn.Accounts.Where(a => a.Name == "A" && a.Desc.Contains("1"));
 
-            var m = (MethodCallExpression)query.Expression;
+            //var m = (MethodCallExpression)query.Expression;
 
-            query.Provider.Execute(query.Expression);
+            //query.Provider.Execute(query.Expression);
             
             //List<Account> values = new List<Account>();
 
