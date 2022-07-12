@@ -21,6 +21,7 @@ namespace QBSDK
             Encoding = Encoding.UTF8,
             OmitXmlDeclaration = true
         };
+
         private readonly XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces(new []{XmlQualifiedName.Empty});
 
         public override string ToString()
