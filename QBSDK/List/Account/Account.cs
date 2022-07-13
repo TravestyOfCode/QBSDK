@@ -39,8 +39,15 @@ namespace QBSDK
         [XmlElement("FullName")]
         public string FullName { get; set; }
 
-        [XmlElement("IsActive")]
+        [XmlIgnore()]
         public bool? IsActive { get; set; }
+
+        [XmlElement("IsActive")]
+        internal string IsActiveString
+        {
+            get => IsActive == null ? null : (IsActive.Value ? "true" : "false");
+            set => IsActive = value == null ? null : value == "true" ? true : false;
+        }
 
         [XmlElement("ParentRef")]
         public ParentRef ParentRef { get; set; }
@@ -57,9 +64,12 @@ namespace QBSDK
         [XmlElement("SpecialAccountType")]
         public SpecialAccountType? SpecialAccountType { get; set; }
 
-        [XmlElement("IsTaxAccount")]
+        [XmlIgnore()]
         public bool? IsTaxAccount { get; set; }
 
+        [XmlElement("IsTaxAccount")]
+        internal string IsTaxAccountString => IsTaxAccount == null ? null : (IsTaxAccount.Value ? "true" : "false");
+        
         [MaxLength(7)]
         [XmlElement("AccountNumber")]
         public string AccountNumber { get; set; }

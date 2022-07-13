@@ -23,8 +23,15 @@ namespace QBSDK
         [XmlElement("Name")]
         public string Name { get; set; }
 
-        [XmlElement("IsActive")]
+        [XmlIgnore()]
         public bool? IsActive { get; set; }
+
+        [XmlElement("IsActive")]
+        internal string IsActiveString
+        {
+            get => IsActive == null ? null : (IsActive.Value ? "true" : "false");
+            set => IsActive = value == null ? null : value == "true" ? true : false;
+        }
 
         [XmlElement("ParentRef")]
         public ParentRef ParentRef { get; set; }

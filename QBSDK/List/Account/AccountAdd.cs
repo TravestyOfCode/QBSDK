@@ -15,7 +15,14 @@ namespace QBSDK
         public string Name { get; set; }
 
         [XmlElement("IsActive")]
-        public string IsActive { get; set; }
+        internal string IsActiveString
+        {
+            get => IsActive == null ? null : (IsActive.Value ? "true" : "false");
+            set => IsActive = value == null ? null : value == "true" ? true : false;
+        }
+
+        [XmlIgnore()]
+        public bool? IsActive { get; set; }
 
         [XmlElement("ParentRef")]
         public ParentRef ParentRef { get; set; }
@@ -53,7 +60,7 @@ namespace QBSDK
         public SalesTaxCodeRef SalesTaxCodeRef { get; set; }
 
         [XmlElement("TaxLineID")]
-        public string TaxLineID { get; set; }
+        public int? TaxLineID { get; set; }
 
         [XmlElement("CurrencyRef")]
         public CurrencyRef CurrencyRef { get; set; }
