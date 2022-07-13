@@ -7,7 +7,7 @@ namespace QBSDK
     [Serializable()]
     [XmlType("DataExtRet", Namespace="", AnonymousType=true)]
     [XmlRoot("DataExtRet", Namespace="")]
-    public class DataExtRet
+    public class DataExt
     {        
         [RegularExpression("0|(\\{[0-9a-fA-F]{8}(\\-([0-9a-fA-F]{4})){3}\\-[0-9a-fA-F]{12}\\})")]
         [XmlElement("OwnerID")]
@@ -26,7 +26,7 @@ namespace QBSDK
         [XmlElement("DataExtValue")]
         public string DataExtValue { get; set; }
 
-        public DataExtRet()
+        public DataExt()
         {
             DataExtType = DataExtType.STR255TYPE;
         }

@@ -111,10 +111,10 @@ namespace QBSDK
         public bool RefundAppliedToTxnRetSpecified => RefundAppliedToTxnRet.Count != 0;
                 
         [XmlIgnore()]
-        private Collection<DataExtRet> _dataExtRet;
+        private Collection<DataExt> _dataExtRet;
 
         [XmlElement("DataExtRet")]
-        public Collection<DataExtRet> DataExtRet
+        public Collection<DataExt> DataExtRet
         {
             get => _dataExtRet;
             private set => _dataExtRet = value;
@@ -126,7 +126,7 @@ namespace QBSDK
         public ARRefundCreditCard()
         {
             _refundAppliedToTxnRet = new Collection<RefundAppliedToTxnRet>();
-            _dataExtRet = new Collection<DataExtRet>();
+            _dataExtRet = new Collection<DataExt>();
         }
 
         public static implicit operator ARRefundCreditCardAdd(ARRefundCreditCard arRefundCreditCard) => arRefundCreditCard.Adapt<ARRefundCreditCardAdd>();
