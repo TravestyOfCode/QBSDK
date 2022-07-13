@@ -46,7 +46,7 @@ namespace QBSDK
         internal string IsActiveString
         {
             get => IsActive == null ? null : (IsActive.Value ? "true" : "false");
-            set => IsActive = value == null ? null : value == "true" ? true : false;
+            set => IsActive = value == null ? null : value == "true";
         }
 
         [XmlElement("ParentRef")]
@@ -125,10 +125,10 @@ namespace QBSDK
         public CurrencyRef CurrencyRef { get; set; }
 
         [XmlIgnore()]
-        private Collection<DataExtRet> _dataExtRet;
+        private Collection<DataExt> _dataExtRet;
 
         [XmlElement("DataExtRet")]
-        public Collection<DataExtRet> DataExtRet
+        public Collection<DataExt> DataExtRet
         {
             get
             {
@@ -142,7 +142,7 @@ namespace QBSDK
 
         public Account()
         {
-            _dataExtRet = new Collection<DataExtRet>();
+            _dataExtRet = new Collection<DataExt>();
         }
 
         public static implicit operator AccountAdd(Account account) => account.Adapt<AccountAdd>();

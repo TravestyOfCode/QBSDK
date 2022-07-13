@@ -30,7 +30,7 @@ namespace QBSDK
         internal string IsActiveString
         {
             get => IsActive == null ? null : (IsActive.Value ? "true" : "false");
-            set => IsActive = value == null ? null : value == "true" ? true : false;
+            set => IsActive = value == null ? null : value == "true";
         }
 
         [XmlElement("ParentRef")]
