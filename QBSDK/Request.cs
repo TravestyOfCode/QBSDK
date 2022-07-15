@@ -5,12 +5,11 @@ using System.Xml.Serialization;
 
 namespace QBSDK
 {
+    [Serializable()]
     public abstract class Request<T>
     {
         [XmlIgnore()]
         public Type EntityType { get; init; } = typeof(T);
-
-        // public T Add { get; set; }
 
         [XmlAttribute("requestID")]
         public string RequestID { get; set; }
@@ -30,11 +29,10 @@ namespace QBSDK
             StringBuilder builder = new StringBuilder();
             using (XmlWriter writer = XmlWriter.Create(builder, settings))
             {
-                serialize.Serialize(writer, this, namespaces);
+                serialize.Serialize(writer, this, namespaces);               
             }
 
             return builder.ToString();
         }
-
     }
 }

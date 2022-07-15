@@ -133,10 +133,19 @@ namespace QBSDK
         public MetaData? MetaData { get; set; }
 
         [XmlAttribute("metaData")]
-        internal string MetaDataString => MetaData?.ToString();
-
-        [XmlIgnore()]
-        public bool MetaDataSpecified => MetaData.HasValue;
+        public string MetaDataString
+        {
+            get => MetaData?.ToString();
+            set
+            {
+                if(value == null)
+                {
+                    MetaData = null;
+                    return;
+                }
+                MetaData = Enum.Parse<MetaData>(value, true);
+            }
+        }
 
         public AccountQuery()
         {
