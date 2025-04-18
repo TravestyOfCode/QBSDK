@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QBSDK.Data", "QBSDK.Data\QBSDK.Data.csproj", "{4C9AD60F-09D7-4B78-9ECB-92B930DA53FD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4C9AD60F-09D7-4B78-9ECB-92B930DA53FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C9AD60F-09D7-4B78-9ECB-92B930DA53FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C9AD60F-09D7-4B78-9ECB-92B930DA53FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C9AD60F-09D7-4B78-9ECB-92B930DA53FD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C133B8C0-214A-4BE2-B589-E3E339842875}
+	EndGlobalSection
+EndGlobal
