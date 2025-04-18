@@ -138,10 +138,7 @@ public class QBConnection(ILogger<QBConnection> logger) : IDisposable
     {
         try
         {
-            if (rp != null)
-            {
-                rp.CloseConnection();
-            }
+            rp?.CloseConnection();
         }
         catch (Exception ex)
         {
