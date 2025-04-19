@@ -27,6 +27,7 @@
 		<Using Include="System.Threading" />
 		<Using Include="System.Threading.Tasks" />
 		<Using Include="Xunit" />
+		<Using Include="QBSDK.Data" />
 	</ItemGroup>
 
 </Project>
