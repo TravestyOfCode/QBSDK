@@ -25,7 +25,7 @@ public class AccountMod
     public int? TaxLineID { get; set; }
     public ListRef? CurrencyRef { get; set; }
 
-    public XElement ToQBXML(QBVersion version = default, string name = nameof(AccountMod))
+    public XElement ToQBXML(QBVersion version, string name = nameof(AccountMod))
     {
         return new XElement("AccountModRq", new XElement(name)
             .Append(ListID)

@@ -1,7 +1,11 @@
 ﻿namespace QBSDK.Data;
 
-public record struct QBVersion(int MajorVersion = 13, int MinorVersion = 0, QBEdition QBEdition = QBEdition.ALL)
+public class QBVersion(int majorVersion = 13, int minorVersion = 0, QBEdition qbEdition = QBEdition.ALL)
 {
+    public int MajorVersion { get; set; } = majorVersion;
+    public int MinorVersion { get; set; } = minorVersion;
+    public QBEdition QBEdition { get; set; } = qbEdition;
+
     public bool Supports(QBVersion version)
     {
         if (version.MajorVersion < MajorVersion)

@@ -16,7 +16,7 @@ public class ListRef
         FullName = fullName;
     }
 
-    public XElement ToQBXML(QBVersion version = default, string name = nameof(ListRef))
+    public XElement ToQBXML(QBVersion version = default!, string name = nameof(ListRef))
     {
         return new XElement(name)
             .Append(ListID)
@@ -30,7 +30,7 @@ public static class ListRefExtensions
             ? null
             : new ListRef(entity.ListID, entity.FullName);
 
-    public static XElement Append(this XElement element, ListRef? value, [CallerArgumentExpression(nameof(value))] string name = "", QBVersion version = default)
+    public static XElement Append(this XElement element, ListRef? value, [CallerArgumentExpression(nameof(value))] string name = "", QBVersion version = default!)
     {
         if (value != null)
         {
@@ -38,7 +38,7 @@ public static class ListRefExtensions
         }
         return element;
     }
-    public static XElement AppendIf(this XElement element, Func<bool> predicate, ListRef? value, [CallerArgumentExpression(nameof(value))] string name = "", QBVersion version = default)
+    public static XElement AppendIf(this XElement element, Func<bool> predicate, ListRef? value, [CallerArgumentExpression(nameof(value))] string name = "", QBVersion version = default!)
     {
         if (predicate() && value != null)
         {
