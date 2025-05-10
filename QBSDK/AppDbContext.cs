@@ -7,6 +7,13 @@ namespace QBSDK;
 internal class AppDbContext(DbContextOptions options) : DbContext(options)
 {
     public DbSet<Vendor> Vendors { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.ApplyConfigurationsFromAssembly(System.Reflection.Assembly.GetExecutingAssembly());
+    }
 }
 
 internal class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
