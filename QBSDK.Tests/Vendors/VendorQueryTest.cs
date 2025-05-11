@@ -33,6 +33,7 @@ public class VendorQueryTest(ITestOutputHelper output)
         conn.ProcessRequest(rq);
 
         Assert.Equal(0, rq.StatusCode);
+        Assert.NotNull(rq.Results);
 
     }
 }
