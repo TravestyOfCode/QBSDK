@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace QBSDK;
 
-internal abstract class QBRequest
+public abstract class QBRequest<T>
 {
     protected long? statusCode;
     public long? StatusCode => StatusCode;
@@ -23,7 +23,58 @@ internal abstract class QBRequest
     protected int? iteratorRemainingCount;
     public int? RemainingCount => iteratorRemainingCount;
 
-    protected string? iteratorID;
+    private string? _iteratorID;
+    public string? iteratorID
+    {
+        get => _iteratorID;
+        protected set
+        {
+            _iteratorID = value;
+            if (value == null)
+            {
+                iterator = null;
+            }
+            else
+            {
+                iterator = QBSDK.Iterator.Continue;
+            }
+        }
+    }
+
+    protected Iterator? iterator;
+    public Iterator? Iterator
+    {
+        get => iterator;
+    }
+
+    protected int? maxReturned;
+    public int? MaxReturned
+    {
+        get => maxReturned;
+        set
+        {
+            maxReturned = value;
+            if (value == null)
+            {
+                iteratorID = null;
+                iterator = null;
+            }
+            else
+            {
+                if (iteratorID != null)
+                {
+                    iterator = QBSDK.Iterator.Continue;
+                }
+                else
+                {
+                    iterator = QBSDK.Iterator.Start;
+                }
+            }
+        }
+    }
+
+    protected XElement? Response;
+    public T? Results { get; protected set; }
 
     public void SetError(long errorCode)
     {
@@ -33,22 +84,28 @@ internal abstract class QBRequest
         statusMessage = "Unknown error.";
     }
 
-    public abstract XElement ToXElement();
+    public virtual XElement ToXElement(string name = nameof(QBRequest<T>))
+    {
+        return new XElement(name)
+            .AddAttribute(requestID)
+            .AddAttribute(iteratorID)
+            .AddAttribute(iterator);
+    }
 
     public virtual void ParseResponse(XDocument doc)
     {
-        var Rs = doc.Descendants()
+        Response = doc.Descendants()
             .Where(d => d.HasAttributes && Equals(requestID, d.Attribute(nameof(requestID))?.Value))
             .SingleOrDefault();
 
-        if (Rs != null)
+        if (Response != null)
         {
-            Rs.SetFromAttribute(out statusCode);
-            Rs.SetFromAttribute(out statusSeverity);
-            Rs.SetFromAttribute(out statusMessage);
-            Rs.SetFromAttribute(out retCount);
-            Rs.SetFromAttribute(out iteratorRemainingCount);
-            Rs.SetFromAttribute(out iteratorID);
+            Response.SetFromAttribute(statusCode);
+            Response.SetFromAttribute(statusSeverity);
+            Response.SetFromAttribute(statusMessage);
+            Response.SetFromAttribute(retCount);
+            Response.SetFromAttribute(iteratorRemainingCount);
+            Response.SetFromAttribute(iteratorID);
         }
     }
 }
