@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
+using System.Xml.Linq;
 namespace QBSDK;
 
 public class Vendor : QBListEntity
 {
-
+    public Vendor() : base() { }
+    internal Vendor(XElement element) : base(element) { }
 }
 
 internal class VendorConfiguration : IEntityTypeConfiguration<Vendor>

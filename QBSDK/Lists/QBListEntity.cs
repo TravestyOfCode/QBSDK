@@ -1,4 +1,7 @@
-﻿namespace QBSDK;
+﻿using QBSDK.Utilities;
+using System.Xml.Linq;
+
+namespace QBSDK;
 
 public abstract class QBListEntity
 {
@@ -15,4 +18,16 @@ public abstract class QBListEntity
     public string? Name { get; set; }
 
     public bool? IsActive { get; set; }
+
+    protected QBListEntity() { }
+
+    protected QBListEntity(XElement element)
+    {
+        element.SetFromElement(ListID);
+        element.SetFromElement(TimeCreated);
+        element.SetFromElement(TimeModified);
+        element.SetFromElement(EditSequence);
+        element.SetFromElement(Name);
+        element.SetFromElement(IsActive);
+    }
 }
