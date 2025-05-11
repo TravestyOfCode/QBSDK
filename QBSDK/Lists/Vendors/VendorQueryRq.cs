@@ -48,7 +48,7 @@ public class VendorQueryRq : QBRequest<List<Vendor>>
             .AddElements(OwnerID);
     }
 
-    public new void ParseResponse(XDocument doc)
+    public override void ParseResponse(XDocument doc)
     {
         base.ParseResponse(doc);
 
