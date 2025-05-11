@@ -6,15 +6,15 @@ namespace QBSDK;
 
 public class NameFilter
 {
-    public MatchCriterion? MatchCriterion { get; set; }
+    public MatchCriterion? MatchCriterion;
 
-    public required string Name { get; set; }
+    public required string Name;
 
     public NameFilter() { }
     public NameFilter(XElement element)
     {
-        element.SetFromElement(MatchCriterion);
-        element.SetFromElement(Name);
+        element.SetFromElement(out MatchCriterion);
+        element.SetFromElement(out Name!);
     }
 
     public XElement ToXElement(string name = nameof(NameFilter))

@@ -6,15 +6,15 @@ namespace QBSDK;
 
 public class NameRangeFilter
 {
-    public string? FromName { get; set; }
+    public string? FromName;
 
-    public string? ToName { get; set; }
+    public string? ToName;
 
     public NameRangeFilter() { }
     public NameRangeFilter(XElement element)
     {
-        element.SetFromElement(FromName);
-        element.SetFromElement(ToName);
+        element.SetFromElement(out FromName);
+        element.SetFromElement(out ToName);
     }
 
     public XElement ToXElement(string name = nameof(NameRangeFilter))

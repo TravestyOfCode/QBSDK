@@ -5,29 +5,29 @@ namespace QBSDK;
 
 public abstract class QBListEntity
 {
-    public int Id { get; set; }
+    public int Id;
 
-    public string? ListID { get; set; }
+    public string? ListID;
 
-    public DateTime? TimeCreated { get; set; }
+    public DateTime? TimeCreated;
 
-    public DateTime? TimeModified { get; set; }
+    public DateTime? TimeModified;
 
-    public string? EditSequence { get; set; }
+    public string? EditSequence;
 
-    public string? Name { get; set; }
+    public string? Name;
 
-    public bool? IsActive { get; set; }
+    public bool? IsActive;
 
     protected QBListEntity() { }
 
     protected QBListEntity(XElement element)
     {
-        element.SetFromElement(ListID);
-        element.SetFromElement(TimeCreated);
-        element.SetFromElement(TimeModified);
-        element.SetFromElement(EditSequence);
-        element.SetFromElement(Name);
-        element.SetFromElement(IsActive);
+        element.SetFromElement(out ListID);
+        element.SetFromElement(out TimeCreated);
+        element.SetFromElement(out TimeModified);
+        element.SetFromElement(out EditSequence);
+        element.SetFromElement(out Name);
+        element.SetFromElement(out IsActive);
     }
 }

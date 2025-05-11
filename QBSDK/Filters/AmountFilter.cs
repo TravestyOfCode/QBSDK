@@ -6,15 +6,15 @@ namespace QBSDK;
 
 public class AmountFilter
 {
-    public Operator? Operator { get; set; }
+    public Operator? Operator;
 
-    public decimal Amount { get; set; }
+    public decimal Amount;
 
     public AmountFilter() { }
     public AmountFilter(XElement element)
     {
-        element.SetFromElement(Operator);
-        element.SetFromElement(Amount);
+        element.SetFromElement(out Operator);
+        element.SetFromElement(out Amount);
     }
 
     public XElement ToXElement(string name = nameof(AmountFilter))

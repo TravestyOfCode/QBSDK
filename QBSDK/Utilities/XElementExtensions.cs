@@ -46,23 +46,27 @@ public static class XElementExtensions
         return element;
     }
 
-    public static void SetFromElement(this XElement? element, string? value, [CallerArgumentExpression(nameof(value))] string name = "")
+    public static void SetFromElement(this XElement? element, out string? value, [CallerArgumentExpression(nameof(value))] string name = "")
     {
         value = element?.Element(name)?.Value;
     }
-    public static void SetFromElement<T>(this XElement? element, T? value, [CallerArgumentExpression(nameof(value))] string name = "") where T : struct, Enum
+    public static void SetFromElement<T>(this XElement? element, out T? value, [CallerArgumentExpression(nameof(value))] string name = "") where T : struct, Enum
     {
         value = Enum.TryParse(typeof(T), element?.Element(name)?.Value, out var result) ? (T)result : null;
     }
-    public static void SetFromElement(this XElement? element, decimal? value, [CallerArgumentExpression(nameof(value))] string name = "")
+    public static void SetFromElement(this XElement? element, out decimal? value, [CallerArgumentExpression(nameof(value))] string name = "")
     {
         value = decimal.TryParse(element?.Element(name)?.Value, out var result) ? result : null;
     }
-    public static void SetFromElement(this XElement? element, DateTime? value, [CallerArgumentExpression(nameof(value))] string name = "")
+    public static void SetFromElement(this XElement? element, out decimal value, [CallerArgumentExpression(nameof(value))] string name = "")
+    {
+        value = decimal.TryParse(element?.Element(name)?.Value, out var result) ? result : 0;
+    }
+    public static void SetFromElement(this XElement? element, out DateTime? value, [CallerArgumentExpression(nameof(value))] string name = "")
     {
         value = DateTime.TryParse(element?.Element(name)?.Value, out var result) ? result : null;
     }
-    public static void SetFromElement(this XElement? element, bool? value, [CallerArgumentExpression(nameof(value))] string name = "")
+    public static void SetFromElement(this XElement? element, out bool? value, [CallerArgumentExpression(nameof(value))] string name = "")
     {
         value = element?.Element(name)?.Value switch
         {
@@ -71,7 +75,7 @@ public static class XElementExtensions
             _ => null
         };
     }
-    public static void SetFromElements(this XElement? element, IEnumerable<string>? values, [CallerArgumentExpression(nameof(values))] string name = "")
+    public static void SetFromElements(this XElement? element, out List<string>? values, [CallerArgumentExpression(nameof(values))] string name = "")
     {
         values = element?.Elements(name)?.Select(e => e.Value).ToList();
     }

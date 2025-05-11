@@ -6,21 +6,21 @@ namespace QBSDK;
 
 public class ListRefFilter
 {
-    public List<string>? ListID { get; set; }
+    public List<string>? ListID;
 
-    public List<string>? FullName { get; set; }
+    public List<string>? FullName;
 
-    public List<string>? ListIDWithChildren { get; set; }
+    public List<string>? ListIDWithChildren;
 
-    public List<string>? FullNameWithChildren { get; set; }
+    public List<string>? FullNameWithChildren;
 
     public ListRefFilter() { }
     public ListRefFilter(XElement element)
     {
-        element.SetFromElements(ListID);
-        element.SetFromElements(FullName);
-        element.SetFromElements(ListIDWithChildren);
-        element.SetFromElements(FullNameWithChildren);
+        element.SetFromElements(out ListID);
+        element.SetFromElements(out FullName);
+        element.SetFromElements(out ListIDWithChildren);
+        element.SetFromElements(out FullNameWithChildren);
     }
 
     public XElement ToXElement(string name = nameof(ListRefFilter))
