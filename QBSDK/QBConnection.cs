@@ -37,7 +37,9 @@ internal class QBConnection(ILogger<QBConnection> logger) : IDisposable
             // Open returing true ensures that rp and ticket are not null.
             if (Open())
             {
-                var doc = XDocument.Parse(rp!.ProcessRequest(ticket, GenerateRequestString(request)));
+                var requestString = GenerateRequestString(request);
+                logger.LogDebug("The request string was: {requestString}", requestString);
+                var doc = XDocument.Parse(rp!.ProcessRequest(ticket, requestString));
 
                 request.ParseResponse(doc);
             }
