@@ -23,13 +23,13 @@ public abstract class QBRequest<T>
     protected int? iteratorRemainingCount;
     public int? RemainingCount => iteratorRemainingCount;
 
-    private string? _iteratorID;
-    public string? iteratorID
+    private string? iteratorID;
+    public string? IteratorID
     {
-        get => _iteratorID;
+        get => iteratorID;
         protected set
         {
-            _iteratorID = value;
+            iteratorID = value;
             if (value == null)
             {
                 iterator = null;
@@ -100,12 +100,12 @@ public abstract class QBRequest<T>
 
         if (Response != null)
         {
-            Response.SetFromAttribute(statusCode);
-            Response.SetFromAttribute(statusSeverity);
-            Response.SetFromAttribute(statusMessage);
-            Response.SetFromAttribute(retCount);
-            Response.SetFromAttribute(iteratorRemainingCount);
-            Response.SetFromAttribute(iteratorID);
+            Response.SetFromAttribute(out statusCode);
+            Response.SetFromAttribute(out statusSeverity);
+            Response.SetFromAttribute(out statusMessage);
+            Response.SetFromAttribute(out retCount);
+            Response.SetFromAttribute(out iteratorRemainingCount);
+            Response.SetFromAttribute(out iteratorID);
         }
     }
 }
