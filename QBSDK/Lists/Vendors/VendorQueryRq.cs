@@ -29,8 +29,9 @@ public class VendorQueryRq : QBRequest<List<Vendor>>
 
     public List<string>? OwnerID { get; set; }
 
-    public new XElement ToXElement(string name = nameof(VendorQueryRq))
+    public override XElement ToXElement(string name = nameof(VendorQueryRq))
     {
+        name = nameof(VendorQueryRq);
         return base.ToXElement(name)
             .AddElements(ListID)
             .AddElements(FullName)
