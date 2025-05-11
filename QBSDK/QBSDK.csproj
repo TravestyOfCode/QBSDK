@@ -41,4 +41,8 @@
 	  </None>
 	</ItemGroup>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="QBSDK.Tests" />
+	</ItemGroup>
+
 </Project>
