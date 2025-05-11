@@ -6,7 +6,7 @@ namespace QBSDK;
 public abstract class QBRequest<T>
 {
     protected long? statusCode;
-    public long? StatusCode => StatusCode;
+    public long? StatusCode => statusCode;
 
     protected string? statusSeverity;
     public string? StatusSeverity => statusSeverity;
