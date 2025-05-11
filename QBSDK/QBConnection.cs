@@ -30,7 +30,7 @@ internal class QBConnection(ILogger<QBConnection> logger) : IDisposable
     /// Send the QBRequest to QuickBooks using the SDK.
     /// </summary>
     /// <param name="request">The QBRequest to send to QB. Updates the status of the Request.</param>
-    public void ProcessRequest(QBRequest request)
+    public void ProcessRequest<T>(QBRequest<T> request)
     {
         try
         {
@@ -178,7 +178,7 @@ internal class QBConnection(ILogger<QBConnection> logger) : IDisposable
     /// </summary>
     /// <param name="request">The QBRequest used to generate the QBXML string.</param>
     /// <returns>A XML string representation of the QBRequest.</returns>
-    private static string GenerateRequestString(QBRequest request)
+    private static string GenerateRequestString<T>(QBRequest<T> request)
     {
         var doc = new XDocument(new XDeclaration("1.0", "utf-8", null));
         doc.Add(new XProcessingInstruction("qbxml", $"version=\"13.0\""));
